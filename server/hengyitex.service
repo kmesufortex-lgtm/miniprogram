@@ -1,0 +1,18 @@
+[Unit]
+Description=Hengyitex fabric API
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/hengyitex/server
+Environment=HENGYITEX_DATA_DIR=/var/lib/hengyitex
+EnvironmentFile=-/etc/hengyitex.env
+ExecStart=/opt/hengyitex/venv/bin/gunicorn --workers 2 --threads 2 --bind 127.0.0.1:8000 --timeout 60 app:app
+Restart=always
+RestartSec=3
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

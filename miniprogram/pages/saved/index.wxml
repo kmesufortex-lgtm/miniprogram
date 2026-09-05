@@ -1,0 +1,28 @@
+<view class="simple-page">
+  <view class="simple-topbar">
+    <view class="back" bindtap="goBack">←</view>
+    <view class="saved-heading">
+      <text class="eyebrow">FABRIC ARCHIVE</text>
+      <text class="simple-title">{{title}}</text>
+    </view>
+    <view class="clear" wx:if="{{mode === 'history' && items.length}}" bindtap="clear">清空</view>
+  </view>
+
+  <view class="saved-list" wx:if="{{items.length}}">
+    <view class="saved-card card" wx:for="{{items}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <image src="{{item.image}}" mode="aspectFill"></image>
+      <view class="saved-info">
+        <text class="saved-code">{{item.code}}</text>
+        <text class="saved-name">{{item.name}}</text>
+        <text class="saved-composition">{{item.composition || '点击查看面料详情'}}</text>
+      </view>
+      <text class="saved-arrow">↗</text>
+    </view>
+  </view>
+
+  <view class="empty-state card" wx:else>
+    <view class="empty-swatch"></view>
+    <text class="empty-title">{{mode === 'history' ? '还没有浏览记录' : '还没有收藏面料'}}</text>
+    <text class="empty-copy">进入面料详情查看产品，喜欢的款式可以随时收藏。</text>
+  </view>
+</view>

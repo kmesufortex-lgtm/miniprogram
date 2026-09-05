@@ -1,0 +1,222 @@
+page {
+  min-height: 100%;
+  background: #ffffff;
+  color: #171816;
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+}
+
+view,
+text,
+image,
+button,
+input,
+swiper,
+swiper-item {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  line-height: 1.2;
+  background: transparent;
+}
+
+button::after {
+  border: 0;
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 120rpx 28rpx calc(env(safe-area-inset-bottom) + 160rpx);
+}
+
+.topbar {
+  height: 76rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-safe-right {
+  margin-right: 176rpx;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.brand-mark {
+  position: relative;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 6rpx 14rpx 6rpx 14rpx;
+  background: #344238;
+  transform: rotate(8deg);
+}
+
+.brand-mark-core {
+  position: absolute;
+  right: 5rpx;
+  bottom: 5rpx;
+  width: 9rpx;
+  height: 9rpx;
+  border-radius: 50%;
+  background: #9eb65e;
+}
+
+.brand-name {
+  font-size: 34rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+}
+
+.top-action {
+  flex: 0 0 112rpx;
+  width: 112rpx;
+  min-width: 64rpx;
+  height: 56rpx;
+  padding: 0 18rpx;
+  border-radius: 28rpx;
+  background: #f7f8f6;
+  color: #343832;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section {
+  margin-top: 54rpx;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 10rpx;
+  color: #8a846d;
+  font-size: 21rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 42rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.section-link {
+  color: #6b6758;
+  font-size: 24rpx;
+}
+
+.card {
+  overflow: hidden;
+  border: 1rpx solid #e5e8e3;
+  border-radius: 32rpx;
+  background: #ffffff;
+  box-shadow: 0 16rpx 40rpx rgba(38, 43, 37, 0.06);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48rpx;
+  padding: 0 20rpx;
+  border-radius: 24rpx;
+  background: #eef1ec;
+  color: #4c5548;
+  font-size: 22rpx;
+}
+
+.primary-button {
+  min-height: 88rpx;
+  padding: 0 32rpx;
+  border-radius: 44rpx;
+  background: #20231f;
+  color: #ffffff;
+  font-size: 28rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondary-button {
+  min-height: 80rpx;
+  padding: 0 30rpx;
+  border: 1rpx solid #cfd6ce;
+  border-radius: 40rpx;
+  color: #3d453c;
+  font-size: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav {
+  position: fixed;
+  z-index: 30;
+  right: 20rpx;
+  bottom: 18rpx;
+  left: 20rpx;
+  min-height: 108rpx;
+  padding: 12rpx 12rpx calc(env(safe-area-inset-bottom) + 10rpx);
+  border: 1rpx solid #e5e8e3;
+  border-radius: 34rpx;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 20rpx 50rpx rgba(38, 43, 37, 0.12);
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-item {
+  width: 20%;
+  color: #8a9388;
+  font-size: 20rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7rpx;
+}
+
+.nav-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border: 2rpx solid currentColor;
+  border-radius: 4rpx 8rpx 4rpx 8rpx;
+  transform: rotate(8deg);
+}
+
+.nav-item.active {
+  color: #58703e;
+  font-weight: 700;
+}
+
+.nav-item.active .nav-dot {
+  width: 16rpx;
+  height: 16rpx;
+  background: #8ca855;
+  border-color: #8ca855;
+  box-shadow: 0 0 0 7rpx #e8efdb;
+}
+
+.empty-state {
+  padding: 68rpx 32rpx;
+  text-align: center;
+  color: #777363;
+}

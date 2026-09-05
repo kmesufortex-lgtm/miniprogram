@@ -1,0 +1,24 @@
+<view class="login-page">
+  <view class="login-topbar">
+    <button class="login-back" bindtap="goBack">←</button>
+    <text class="login-topbar-label" style="margin-right: {{topbarSafeRight}}px;">安全登录</text>
+  </view>
+
+  <view class="login-hero">
+    <view class="login-brand-mark"><view class="login-brand-core"></view></view>
+    <text class="login-eyebrow">HENGYI MEMBER ACCESS</text>
+    <text class="login-title">登录后，继续选择面料</text>
+    <text class="login-copy">公开内容无需登录。登录仅用于保存你的面料偏好、样卡申请与收货信息。</text>
+  </view>
+
+  <view class="login-card">
+    <view class="login-benefit"><text class="benefit-index">01</text><view><text class="benefit-title">申请与收藏面料</text><text class="benefit-copy">保存收藏、加入样卡申请，并继续管理你的选择。</text></view></view>
+    <view class="login-benefit"><text class="benefit-index">02</text><view><text class="benefit-title">管理样卡申请</text><text class="benefit-copy">保存申请内容并查看后续寄送进度。</text></view></view>
+    <view class="login-benefit"><text class="benefit-index">03</text><view><text class="benefit-title">保留个人选择</text><text class="benefit-copy">集中查看收藏、浏览记录和收货信息。</text></view></view>
+
+    <button class="wechat-login" loading="{{loggingIn}}" disabled="{{loggingIn}}" bindtap="login">微信快捷登录</button>
+    <button class="guest-back" bindtap="goBack">暂不登录，继续浏览</button>
+  </view>
+
+  <text class="login-note">登录即表示你同意仅将登录状态用于本小程序的个人功能。</text>
+</view>

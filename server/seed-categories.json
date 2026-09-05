@@ -1,0 +1,23 @@
+[
+  {"id":"composition","name":"按成分","selectionMode":"multiple","tags":[
+    {"id":"composition-acetate","name":"醋酸"},{"id":"composition-tencel","name":"天丝"},{"id":"composition-cotton","name":"棉"},{"id":"composition-rayon-cotton","name":"人棉"},{"id":"composition-rayon-silk","name":"人丝"},{"id":"composition-linen","name":"亚麻"},{"id":"composition-cotton-linen","name":"棉麻"},{"id":"composition-silk","name":"桑蚕丝"},{"id":"composition-wool","name":"羊毛"},{"id":"composition-nylon","name":"锦纶"},{"id":"composition-polyester","name":"涤纶"},{"id":"composition-tr","name":"TR"},{"id":"composition-cvc","name":"CVC"},{"id":"composition-tencel-cotton","name":"天丝棉"},{"id":"composition-blend","name":"混纺"},{"id":"composition-other","name":"其他"}
+  ]},
+  {"id":"usage","name":"按用途","selectionMode":"multiple","tags":[
+    {"id":"usage-dress","name":"连衣裙"},{"id":"usage-skirt","name":"半身裙"},{"id":"usage-shirt","name":"衬衫"},{"id":"usage-trousers","name":"女裤"},{"id":"usage-suit","name":"西装套装"},{"id":"usage-outerwear","name":"外套"},{"id":"usage-trench","name":"风衣"},{"id":"usage-jacket","name":"夹克"},{"id":"usage-vest","name":"马甲"},{"id":"usage-coat","name":"大衣"},{"id":"usage-gown","name":"礼服"},{"id":"usage-hanfu","name":"汉服"},{"id":"usage-workwear","name":"职业装"},{"id":"usage-homewear","name":"家居服"}
+  ]},
+  {"id":"handfeel","name":"按手感","selectionMode":"multiple","tags":[
+    {"id":"handfeel-drape","name":"垂感"},{"id":"handfeel-soft","name":"柔软"},{"id":"handfeel-flowy","name":"飘逸"},{"id":"handfeel-crisp","name":"挺括"},{"id":"handfeel-smooth","name":"顺滑"},{"id":"handfeel-skin","name":"亲肤"},{"id":"handfeel-light","name":"轻盈"},{"id":"handfeel-thick","name":"厚实"},{"id":"handfeel-fluffy","name":"蓬松"},{"id":"handfeel-fine","name":"细腻"},{"id":"handfeel-waxy","name":"糯感"},{"id":"handfeel-bodied","name":"有筋骨"}
+  ]},
+  {"id":"craft","name":"按工艺","selectionMode":"multiple","tags":[
+    {"id":"craft-jacquard","name":"提花"},{"id":"craft-print","name":"印花"},{"id":"craft-yarn-dyed","name":"色织"},{"id":"craft-embroidery","name":"刺绣"},{"id":"craft-crinkle","name":"压皱"},{"id":"craft-sandwash","name":"砂洗"},{"id":"craft-brushed","name":"磨毛"},{"id":"craft-raised","name":"起绒"},{"id":"craft-foil","name":"烫金"},{"id":"craft-texture","name":"肌理组织"}
+  ]},
+  {"id":"feature","name":"按特性","selectionMode":"multiple","tags":[
+    {"id":"feature-wrinkle","name":"抗皱"},{"id":"feature-stretch","name":"弹力"},{"id":"feature-fourway","name":"四面弹"},{"id":"feature-microstretch","name":"微弹"},{"id":"feature-cooling","name":"凉感"},{"id":"feature-breathable","name":"透气"},{"id":"feature-wicking","name":"吸湿排汗"},{"id":"feature-sunproof","name":"防晒"},{"id":"feature-waterproof","name":"防水"},{"id":"feature-opaque","name":"不透"},{"id":"feature-lustrous","name":"有光泽"},{"id":"feature-matte","name":"哑光"},{"id":"feature-textured","name":"肌理感"}
+  ]},
+  {"id":"season","name":"按季节","selectionMode":"single","tags":[
+    {"id":"season-spring-summer","name":"春夏"},{"id":"season-spring-autumn","name":"春秋"},{"id":"season-autumn-winter","name":"秋冬"},{"id":"season-all","name":"四季"}
+  ]},
+  {"id":"trend","name":"热门趋势","selectionMode":"multiple","tags":[
+    {"id":"trend-oldmoney","name":"老钱风"},{"id":"trend-quietluxury","name":"静奢风"},{"id":"trend-hanfu","name":"国风汉服"},{"id":"trend-newchinese","name":"新中式"}
+  ]}
+]

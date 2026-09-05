@@ -1,0 +1,35 @@
+.profile-page { padding-right: 24rpx; padding-left: 24rpx; }
+.profile-card { margin-top: 26rpx; padding: 32rpx 26rpx; display: flex; align-items: center; gap: 20rpx; }
+.avatar { width: 104rpx; height: 104rpx; border-radius: 30rpx; background: #77725d; color: #fff; font-family: "Songti SC", serif; font-size: 40rpx; display: flex; align-items: center; justify-content: center; }
+.avatar-image { display: block; }
+.profile-info { min-width: 0; flex: 1; }
+.profile-name, .profile-status { display: block; }
+.profile-name { font-family: "Songti SC", serif; font-size: 34rpx; font-weight: 700; }
+.profile-status { margin-top: 8rpx; color: #777263; font-size: 21rpx; line-height: 1.5; }
+.profile-edit { padding: 14rpx 18rpx; border: 1rpx solid #d5d0c2; border-radius: 24rpx; color: #5d5a4d; font-size: 20rpx; }
+.status-grid { width: 100%; display: flex; gap: 12rpx; }
+.profile-page .section-link { min-width: 190rpx; height: 64rpx; padding: 0 22rpx; border: 1rpx solid #d9e0d8; border-radius: 32rpx; background: #ffffff; color: #3d453c; font-size: 23rpx; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+.status-card { flex: 1 1 0; width: 0; min-height: 154rpx; color: #777263; font-size: 21rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10rpx; }
+.status-number { color: #30312c; font-family: Georgia, serif; font-size: 38rpx; }
+.profile-list { padding: 0 28rpx; }
+.profile-list button { width: 100%; min-height: 102rpx; border-bottom: 1rpx solid #e5e8e3; color: #3d453c; display: flex; align-items: center; justify-content: space-between; }
+.profile-list button:last-child { border-bottom: 0; }
+.profile-list button > view { display: flex; align-items: center; gap: 20rpx; }
+.list-icon { width: 40rpx; height: 40rpx; flex: 0 0 40rpx; display: block; }
+.profile-note { margin-top: 28rpx; padding: 0 18rpx; color: #928d7c; font-size: 21rpx; line-height: 1.7; text-align: center; }
+.profile-edit-mask { position: fixed; z-index: 40; left: 0; right: 0; top: 0; bottom: 0; background: rgba(28, 39, 34, .24); display: flex; align-items: flex-end; }
+.profile-edit-sheet { width: 100%; box-sizing: border-box; padding: 24rpx 36rpx 42rpx; border-radius: 30rpx 30rpx 0 0; background: #fff; box-shadow: 0 -12rpx 36rpx rgba(37, 59, 48, .12); }
+.profile-edit-handle { width: 72rpx; height: 6rpx; margin: 0 auto 28rpx; border-radius: 6rpx; background: #c7d6cc; }
+.profile-edit-eyebrow { display: block; color: #789487; font-size: 18rpx; letter-spacing: 3rpx; }
+.profile-edit-title { display: block; margin-top: 8rpx; color: #253d31; font-family: "Songti SC", serif; font-size: 38rpx; font-weight: 700; }
+.profile-edit-copy { display: block; margin-top: 12rpx; color: #7b887f; font-size: 22rpx; line-height: 1.6; }
+.avatar-picker { width: 128rpx; height: 128rpx; margin: 28rpx auto 20rpx; padding: 0; border: 1rpx solid #c8d6cd; border-radius: 36rpx; overflow: hidden; background: #f4f8f5; color: #6f8f7d; font-size: 20rpx; display: flex; align-items: center; justify-content: center; }
+.avatar-picker::after { border: 0; }
+.avatar-picker-image { width: 128rpx; height: 128rpx; display: block; }
+.avatar-picker-placeholder { color: #6f8f7d; }
+.nickname-input { width: 100%; height: 88rpx; box-sizing: border-box; padding: 0 26rpx; border: 1rpx solid #d5e0d9; border-radius: 20rpx; background: #fbfdfb; color: #253d31; font-size: 26rpx; }
+.profile-edit-actions { display: flex; gap: 18rpx; margin-top: 28rpx; }
+.profile-edit-actions button { flex: 1; height: 82rpx; border-radius: 41rpx; font-size: 25rpx; display: flex; align-items: center; justify-content: center; }
+.profile-edit-cancel { border: 1rpx solid #cbd8d0; color: #587162; background: #fff; }
+.profile-edit-save { color: #fff; background: #6f9a83; }
+.profile-edit-save.is-disabled { color: #a9b7ae; background: #e6eee8; }

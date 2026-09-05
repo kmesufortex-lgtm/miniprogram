@@ -1,0 +1,80 @@
+.brand-page { padding: 116rpx 28rpx calc(env(safe-area-inset-bottom) + 170rpx); background: #ffffff; }
+.brand-topbar { height: 72rpx; display: flex; align-items: center; justify-content: space-between; }
+.brand-lockup { display: flex; align-items: center; gap: 15rpx; }
+.brand-mark { position: relative; width: 38rpx; height: 38rpx; border-radius: 7rpx 18rpx 7rpx 18rpx; background: #344238; transform: rotate(8deg); }
+.brand-mark-core { position: absolute; right: 7rpx; bottom: 7rpx; width: 11rpx; height: 11rpx; border-radius: 50%; background: #9eb65e; }
+.brand-lockup-copy { display: flex; align-items: baseline; gap: 10rpx; }
+.brand-name { color: #1e241e; font-size: 38rpx; font-weight: 800; letter-spacing: 7rpx; }
+.brand-subname { color: #879084; font-size: 18rpx; letter-spacing: 1rpx; }
+.brand-code { color: #8b9388; font-family: Georgia, serif; font-size: 20rpx; letter-spacing: 2rpx; }
+
+.brand-hero { position: relative; height: 1010rpx; margin-top: 34rpx; overflow: hidden; border: 1rpx solid #e6eae4; border-radius: 34rpx; background: #f6f7f3; color: #20251f; box-shadow: 0 18rpx 50rpx rgba(51,61,48,.08); }
+.brand-hero-texture, .brand-hero-wash { position: absolute; width: 100%; height: 100%; }
+.brand-hero-texture { opacity: .9; transform: scale(1.08); filter: saturate(.76) contrast(.98); }
+.brand-hero-wash { background: linear-gradient(180deg, rgba(255,255,255,.06) 8%, rgba(255,255,255,.18) 43%, rgba(250,251,247,.96) 87%); }
+.brand-hero-copy { position: absolute; right: 36rpx; bottom: 114rpx; left: 36rpx; display: flex; flex-direction: column; align-items: flex-start; }
+.hero-kicker, .section-eyebrow { color: #73824b; font-size: 20rpx; font-weight: 700; letter-spacing: 4rpx; }
+.hero-title { display: block; margin-top: 24rpx; font-family: "Songti SC", "STSong", serif; font-size: 58rpx; font-weight: 700; line-height: 1.24; }
+.hero-title text, .section-title text { display: block; }
+.hero-title-accent { color: #73824b; }
+.hero-description { display: block; max-width: 590rpx; margin-top: 24rpx; color: #697267; font-size: 25rpx; line-height: 1.75; }
+.hero-action { min-height: 76rpx; margin-top: 34rpx; padding: 0 25rpx 0 30rpx; border: 1rpx solid #d7dfc0; border-radius: 40rpx; background: #e8eed2; color: #263022; font-size: 24rpx; font-weight: 700; display: flex; align-items: center; gap: 32rpx; }
+.hero-action-arrow { font-size: 32rpx; line-height: 1; }
+.hero-caption { position: absolute; right: 34rpx; bottom: 34rpx; left: 34rpx; display: flex; justify-content: space-between; color: #9ba39a; font-family: Georgia, serif; font-size: 17rpx; letter-spacing: 2rpx; }
+
+.brand-metrics { display: flex; margin-top: 22rpx; padding: 28rpx 0 26rpx; border-bottom: 1rpx solid #e6eae4; border-top: 1rpx solid #e6eae4; }
+.metric { flex: 1; padding-left: 24rpx; border-left: 1rpx solid #e6eae4; }
+.metric:first-child { padding-left: 0; border-left: 0; }
+.metric-value { display: block; color: #20271f; font-family: Georgia, serif; font-size: 25rpx; font-weight: 700; letter-spacing: 1rpx; }
+.metric-label { display: block; margin-top: 8rpx; color: #8a9388; font-size: 20rpx; }
+
+.brand-section { margin-top: 86rpx; }
+.section-kicker { display: flex; align-items: center; gap: 18rpx; color: #687263; font-family: Georgia, serif; font-size: 20rpx; letter-spacing: 2rpx; }
+.section-kicker-line { width: 58rpx; height: 1rpx; background: #c6d96f; }
+.intro-layout { margin-top: 26rpx; }
+.section-title { display: block; color: #20251f; font-family: "Songti SC", "STSong", serif; font-size: 50rpx; font-weight: 700; line-height: 1.25; }
+.section-title-muted { color: #afb6ae; }
+.intro-copy { margin-top: 30rpx; padding-left: 28rpx; border-left: 2rpx solid #c6d96f; color: #5f695e; font-size: 25rpx; line-height: 1.8; }
+.intro-copy text { display: block; }
+.intro-copy text + text { margin-top: 18rpx; color: #8a9388; font-size: 23rpx; }
+
+.section-heading-row { display: flex; align-items: flex-end; justify-content: space-between; }
+.section-title-small { display: block; margin-top: 12rpx; color: #20251f; font-family: "Songti SC", "STSong", serif; font-size: 38rpx; font-weight: 700; }
+.section-side-note { color: #9aa39a; font-family: Georgia, serif; font-size: 18rpx; letter-spacing: 2rpx; }
+.method-list { margin-top: 28rpx; }
+.method-card { display: flex; gap: 24rpx; padding: 27rpx 24rpx; border-top: 1rpx solid #dfe5dd; }
+.method-card:last-child { border-bottom: 1rpx solid #dfe5dd; }
+.method-card.is-dark { margin: 0 -2rpx; border: 1rpx solid #e1e8d8; border-radius: 20rpx; background: #f1f4e9; color: #20251f; }
+.method-no { width: 52rpx; flex: 0 0 52rpx; color: #97a18f; font-family: Georgia, serif; font-size: 22rpx; }
+.is-dark .method-no { color: #73824b; }
+.method-title { display: block; font-size: 29rpx; font-weight: 700; }
+.method-description { display: block; margin-top: 10rpx; color: #798379; font-size: 23rpx; line-height: 1.55; }
+.is-dark .method-description { color: #71806e; }
+
+.visual-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 440rpx 285rpx; gap: 14rpx; margin-top: 28rpx; }
+.visual-card { position: relative; overflow: hidden; border-radius: 24rpx; background: #e8ece5; }
+.visual-card image { width: 100%; height: 100%; }
+.visual-card-tall { grid-row: 1 / 3; }
+.visual-card-tall image { filter: saturate(.78); }
+.visual-card-texture image { filter: saturate(.65) contrast(1.05); }
+.visual-overlay { position: absolute; right: 16rpx; bottom: 16rpx; left: 16rpx; padding: 14rpx 16rpx; border-radius: 15rpx; background: rgba(255,255,255,.86); color: #20251f; }
+.visual-overlay text { display: block; }
+.visual-overlay text:first-child { font-family: Georgia, serif; font-size: 17rpx; letter-spacing: 2rpx; }
+.visual-overlay text:last-child { margin-top: 8rpx; font-size: 22rpx; font-weight: 700; }
+.texture-label { position: absolute; right: 18rpx; bottom: 18rpx; left: 18rpx; color: #20251f; }
+.texture-label text { display: block; }
+.texture-label text:first-child { font-family: Georgia, serif; font-size: 17rpx; letter-spacing: 2rpx; }
+.texture-label text:last-child { margin-top: 8rpx; font-size: 21rpx; font-weight: 700; }
+
+.contact-section { padding: 38rpx 30rpx 34rpx; border: 1rpx solid #e1e7d9; border-radius: 28rpx; background: #f2f5ed; color: #20251f; }
+.contact-title { display: block; margin-top: 22rpx; font-family: "Songti SC", "STSong", serif; font-size: 46rpx; font-weight: 700; line-height: 1.3; }
+.contact-copy { display: block; margin-top: 18rpx; color: #6e796d; font-size: 24rpx; line-height: 1.7; }
+.contact-actions { display: flex; gap: 14rpx; margin-top: 28rpx; }
+.contact-primary, .contact-secondary { min-height: 72rpx; padding: 0 24rpx; border-radius: 36rpx; font-size: 23rpx; display: flex; align-items: center; justify-content: center; }
+.contact-primary { flex: 1; background: #c6d96f; color: #20251f; font-weight: 700; }
+.contact-primary text { margin-left: 18rpx; font-size: 29rpx; }
+.contact-secondary { border: 1rpx solid #cdd7c7; color: #4c5a4a; }
+.company-signature { display: flex; justify-content: space-between; margin-top: 38rpx; padding-top: 18rpx; border-top: 1rpx solid #dce4d5; color: #929b8f; font-size: 17rpx; }
+.company-signature text:last-child { font-family: Georgia, serif; letter-spacing: 1rpx; }
+
+@media (prefers-reduced-motion: reduce) { .brand-hero-texture { transform: none; } }

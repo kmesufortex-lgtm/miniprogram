@@ -1,0 +1,20 @@
+# Secrets and production data
+.env
+.env.*
+server/data/
+server/.env
+*.sqlite3
+*.db
+uploads/
+
+# Local/runtime files
+__pycache__/
+*.py[cod]
+*.log
+node_modules/
+.DS_Store
+
+# Generated deployment artifacts
+deploy-*.zip
+deploy-media-warehouse-*/
+server-image-optimization.zip

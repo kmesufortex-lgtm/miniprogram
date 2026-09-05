@@ -1,0 +1,267 @@
+page { background: #ffffff; }
+
+.address-page {
+  min-height: 100vh;
+  padding: 112rpx 28rpx calc(env(safe-area-inset-bottom) + 150rpx);
+  background: #ffffff;
+}
+
+.address-header {
+  position: relative;
+  min-height: 112rpx;
+  display: flex;
+  align-items: flex-end;
+}
+
+.back-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  flex: 0 0 72rpx;
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.back-button:active { background: #f1f7f3; }
+
+.back-icon {
+  position: relative;
+  width: 46rpx;
+  height: 34rpx;
+}
+
+.back-chevron {
+  position: absolute;
+  top: 7rpx;
+  left: 3rpx;
+  width: 18rpx;
+  height: 18rpx;
+  border-bottom: 4rpx solid #426b57;
+  border-left: 4rpx solid #426b57;
+  border-radius: 2rpx;
+  transform: rotate(45deg);
+}
+
+.back-line {
+  position: absolute;
+  top: 16rpx;
+  left: 5rpx;
+  width: 34rpx;
+  height: 4rpx;
+  border-radius: 4rpx;
+  background: #426b57;
+}
+
+.header-copy {
+  min-width: 0;
+  margin-left: auto;
+  text-align: left;
+}
+.header-copy .eyebrow { margin-bottom: 6rpx; color: #779182; }
+
+.page-title {
+  display: block;
+  color: #1f3d31;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 44rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.address-guide {
+  margin-top: 38rpx;
+  padding: 24rpx 26rpx;
+  border-radius: 24rpx;
+  background: #f4f9f6;
+  color: #60756a;
+  font-size: 23rpx;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.guide-mark {
+  flex: 0 0 12rpx;
+  width: 12rpx;
+  height: 12rpx;
+  margin-top: 12rpx;
+  border-radius: 50%;
+  background: #6d9a82;
+}
+
+.address-list {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 22rpx;
+}
+
+.address-card {
+  position: relative;
+  width: 100%;
+  padding: 30rpx 28rpx 24rpx;
+  border: 1rpx solid #e3e9e5;
+  border-radius: 28rpx;
+  background: #ffffff;
+  box-shadow: 0 14rpx 36rpx rgba(38, 67, 53, 0.06);
+}
+
+.address-card.is-default {
+  border: 2rpx solid #78a18b;
+  background: linear-gradient(135deg, #ffffff 0%, #f7fbf8 100%);
+  box-shadow: 0 18rpx 42rpx rgba(63, 105, 82, 0.12);
+}
+
+.address-card.is-default::before {
+  content: "";
+  position: absolute;
+  top: 28rpx;
+  bottom: 28rpx;
+  left: -2rpx;
+  width: 8rpx;
+  border-radius: 0 8rpx 8rpx 0;
+  background: #659178;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.contact-line {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 18rpx;
+}
+
+.contact-name {
+  color: #203a2f;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.contact-phone { color: #52665c; font-size: 25rpx; }
+
+.default-badge {
+  flex: 0 0 auto;
+  padding: 9rpx 17rpx;
+  border-radius: 22rpx;
+  background: #dfeee6;
+  color: #416e58;
+  font-size: 21rpx;
+  font-weight: 700;
+}
+
+.full-address {
+  display: block;
+  margin-top: 20rpx;
+  padding-right: 12rpx;
+  color: #4e5c54;
+  font-size: 26rpx;
+  line-height: 1.65;
+}
+
+.card-footer {
+  min-height: 58rpx;
+  margin-top: 24rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #e8eeea;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.default-note {
+  margin-right: auto;
+  color: #6a8375;
+  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  gap: 11rpx;
+}
+
+.default-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #67947c;
+  box-shadow: 0 0 0 7rpx #e7f1eb;
+}
+
+.set-default {
+  min-width: 156rpx;
+  height: 58rpx;
+  padding: 0 24rpx;
+  border: 1rpx solid #a9c0b3;
+  border-radius: 30rpx;
+  color: #496d5b;
+  font-size: 23rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-address {
+  min-height: 620rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-symbol {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 38rpx;
+  background: #edf5f0;
+  color: #648b76;
+  font-family: Georgia, serif;
+  font-size: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-title {
+  margin-top: 28rpx;
+  color: #294638;
+  font-size: 31rpx;
+  font-weight: 700;
+}
+
+.empty-copy { margin-top: 12rpx; color: #849087; font-size: 23rpx; }
+
+.address-bottom {
+  position: fixed;
+  z-index: 20;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 22rpx 28rpx calc(env(safe-area-inset-bottom) + 20rpx);
+  border-top: 1rpx solid #e8edea;
+  background: rgba(255, 255, 255, 0.97);
+}
+
+.add-address {
+  width: 100%;
+  height: 88rpx;
+  border-radius: 44rpx;
+  background: #5f9077;
+  color: #ffffff;
+  font-size: 27rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14rpx 32rpx rgba(70, 117, 92, 0.22);
+}

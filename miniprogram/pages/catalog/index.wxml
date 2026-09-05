@@ -1,0 +1,68 @@
+<view class="page-shell catalog-page">
+  <view class="topbar catalog-topbar">
+    <view class="brand-lockup"><view class="brand-mark"><view class="brand-mark-core"></view></view><text class="brand-name">面料分类</text></view>
+    <text class="result-count topbar-safe-right" style="margin-right: {{topbarSafeRight}}px;">{{visibleProducts.length}} 款</text>
+  </view>
+
+  <view class="search-box">
+    <text class="search-icon">⌕</text>
+    <input value="{{query}}" bindinput="onSearch" placeholder="搜索货号、成分或用途" placeholder-class="search-placeholder" />
+  </view>
+
+  <view class="catalog-split">
+    <view class="category-rail">
+      <button class="rail-latest {{activeTagId === 'latest' ? 'active' : ''}}" bindtap="chooseLatest">
+        <text>最新上新</text><i></i>
+      </button>
+      <view class="rail-group" wx:for="{{categories}}" wx:key="id">
+        <button class="rail-group-button {{activeGroupId === item.id ? 'expanded' : ''}}" data-id="{{item.id}}" bindtap="toggleGroup">
+          <text>{{item.name}}</text><i>{{activeGroupId === item.id ? '−' : '＋'}}</i>
+        </button>
+        <view class="rail-tags" wx:if="{{activeGroupId === item.id}}">
+          <button wx:for="{{item.tags}}" wx:for-item="tag" wx:key="id" class="rail-tag {{activeTagId === tag.id ? 'active' : ''}}" data-id="{{tag.id}}" data-name="{{tag.name}}" bindtap="chooseCategory">
+            <text>{{tag.name}}</text><i wx:if="{{activeTagId === tag.id}}"></i>
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <view class="catalog-results">
+      <view class="results-heading">
+        <view><text class="eyebrow">FABRIC INDEX</text><text class="results-title">{{activeLabel}}</text></view>
+        <text>{{visibleProducts.length}}</text>
+      </view>
+
+      <view class="compact-product-card" wx:for="{{visibleProducts}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+        <view class="compact-image-wrap">
+          <image class="compact-image" src="{{item.coverImage}}" mode="aspectFill"></image>
+          <text class="compact-color-count">{{item.colorCount}}色</text>
+        </view>
+        <view class="compact-content">
+          <view class="compact-code-row"><text class="compact-code">{{item.code}}</text><text class="compact-arrow">↗</text></view>
+          <text class="compact-title">{{item.name}}</text>
+          <text class="compact-composition">{{item.compositionSummary}}</text>
+          <view class="compact-footer">
+            <view class="compact-meta">
+              <view class="compact-specs"><text>{{item.weight}}</text><i></i><text>{{item.width}}</text></view>
+              <view class="compact-tags" wx:if="{{item.displayTags.length}}"><text wx:for="{{item.displayTags}}" wx:key="*this">{{item}}</text></view>
+            </view>
+            <button class="favorite-button {{item.favorite ? 'is-favorite' : ''}}" data-id="{{item.id}}" catchtap="toggleFavorite" aria-label="{{item.favorite ? '取消收藏' : '收藏'}}">♥</button>
+          </view>
+        </view>
+      </view>
+
+      <view class="catalog-empty" wx:if="{{!loading && !visibleProducts.length}}">
+        <text class="empty-mark">—</text><text class="empty-title">该分类暂时没有面料</text><text class="empty-copy">可以选择左侧其他分类，或返回“最新上新”。</text>
+      </view>
+      <view class="catalog-end" wx:if="{{visibleProducts.length}}">更多面料正在整理</view>
+    </view>
+  </view>
+</view>
+
+<view class="bottom-nav">
+  <button class="nav-item" data-page="home" bindtap="onNav"><view class="nav-dot"></view><text>首页</text></button>
+  <button class="nav-item active" data-page="catalog" bindtap="onNav"><view class="nav-dot"></view><text>分类</text></button>
+  <button class="nav-item" data-page="brand" bindtap="onNav"><view class="nav-dot"></view><text>品牌</text></button>
+  <button class="nav-item" data-page="samples" bindtap="onNav"><view class="nav-dot"></view><text>申请单</text></button>
+  <button class="nav-item" data-page="profile" bindtap="onNav"><view class="nav-dot"></view><text>我的</text></button>
+</view>

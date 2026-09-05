@@ -1,0 +1,44 @@
+.samples-page { padding-right: 24rpx; padding-left: 24rpx; }
+.sample-count { color: #817d6d; font-size: 24rpx; }
+.sample-intro { margin: 32rpx 4rpx 34rpx; }
+.sample-title { display: block; font-family: "Songti SC", serif; font-size: 48rpx; font-weight: 700; }
+.sample-copy { display: block; margin-top: 18rpx; color: #716d5f; font-size: 24rpx; line-height: 1.7; }
+.sample-card { margin-bottom: 18rpx; padding: 18rpx; display: flex; gap: 22rpx; }
+.sample-image { flex: 0 0 210rpx; width: 210rpx; height: 270rpx; border-radius: 22rpx; }
+.sample-content { min-width: 0; flex: 1; padding: 6rpx 0; }
+.sample-line, .quantity-row { display: flex; align-items: center; justify-content: space-between; }
+.sample-name { font-family: "Songti SC", serif; font-size: 29rpx; font-weight: 700; }
+.delete-button { color: #9a6d63; font-size: 34rpx; }
+.sample-code, .sample-spec { display: block; color: #777263; font-size: 21rpx; }
+.sample-code { margin-top: 12rpx; }
+.sample-spec { margin-top: 8rpx; line-height: 1.5; }
+.quantity-row { margin-top: 28rpx; }
+.free-label { color: #77725e; font-size: 19rpx; }
+.quantity-control { min-height: 54rpx; padding: 0 22rpx; border: 1rpx solid #d8d3c5; border-radius: 27rpx; color: #4f4c42; font-size: 21rpx; display: flex; align-items: center; }
+.summary { margin-top: 28rpx; padding: 30rpx; }
+.summary > view { padding: 14rpx 2rpx; color: #777263; display: flex; justify-content: space-between; }
+.summary > view text:last-child { color: #33342e; font-weight: 700; }
+.summary .primary-button { margin-top: 24rpx; }
+.empty-state { margin-top: 36rpx; }
+.empty-swatch { width: 82rpx; height: 82rpx; margin: 0 auto 24rpx; border-radius: 12rpx 34rpx 12rpx 34rpx; background: #aaa48d; transform: rotate(8deg); }
+.empty-title, .empty-copy { display: block; }
+.empty-title { color: #3e3e37; font-family: "Songti SC", serif; font-size: 34rpx; font-weight: 700; }
+.empty-copy { max-width: 510rpx; margin: 14rpx auto 30rpx; font-size: 23rpx; line-height: 1.7; }
+.modal-mask { position: fixed; z-index: 80; top: 0; right: 0; bottom: 0; left: 0; padding: 0 20rpx; background: rgba(28, 28, 25, .42); display: flex; align-items: flex-end; }
+.confirm-sheet { box-sizing: border-box; width: 100%; padding: 18rpx 32rpx calc(env(safe-area-inset-bottom) + 28rpx); border-radius: 36rpx 36rpx 0 0; background: #ffffff; }
+.sheet-handle { width: 72rpx; height: 7rpx; margin: 0 auto 28rpx; border-radius: 4rpx; background: #d0ccbf; }
+.confirm-title, .confirm-tip { display: block; }
+.confirm-title { font-family: "Songti SC", serif; font-size: 38rpx; font-weight: 700; }
+.confirm-tip { margin-top: 8rpx; color: #85806f; font-size: 22rpx; }
+.shipping-notice { margin-top: 24rpx; padding: 20rpx 22rpx; border: 1rpx solid #d8e5dc; border-radius: 20rpx; background: #f3f9f5; }
+.shipping-notice-title, .shipping-notice-copy { display: block; }
+.shipping-notice-title { color: #315947; font-size: 23rpx; font-weight: 700; }
+.shipping-notice-copy { margin-top: 8rpx; color: #5d7164; font-size: 21rpx; line-height: 1.55; }
+.contact-link { width: auto; height: 48rpx; margin: 10rpx 0 0; padding: 0; color: #4d866a; background: transparent; font-size: 21rpx; line-height: 48rpx; text-align: left; }
+.address-preview { box-sizing: border-box; display: flex; width: 100%; min-height: 132rpx; margin: 28rpx 0 18rpx; padding: 24rpx; border: 1rpx solid #d9d5c9; border-radius: 24rpx; color: #4b493f; align-items: center; justify-content: space-between; text-align: left; }
+.address-preview view { min-width: 0; flex: 1; }
+.address-name, .address-detail { display: block; }
+.address-name { font-size: 25rpx; font-weight: 700; }
+.address-detail { margin-top: 8rpx; color: #777263; font-size: 21rpx; line-height: 1.5; }
+.remark-input { box-sizing: border-box; width: 100%; height: 136rpx; margin-bottom: 20rpx; padding: 20rpx 22rpx; border: 1rpx solid #d9d5c9; border-radius: 20rpx; background: #fff; color: #3f433d; font-size: 23rpx; line-height: 1.5; }
+.sheet-cancel { width: 100%; height: 72rpx; margin-top: 8rpx; color: #777263; font-size: 24rpx; }

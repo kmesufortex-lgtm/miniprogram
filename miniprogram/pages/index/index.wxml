@@ -1,0 +1,105 @@
+<view class="page-shell home-page">
+  <view class="topbar">
+    <view class="brand-lockup">
+      <view class="brand-mark"><view class="brand-mark-core"></view></view>
+      <text class="brand-name">衡弈纺织</text>
+    </view>
+    <button class="top-action topbar-safe-right" style="margin-right: {{topbarSafeRight}}px;" bindtap="goCatalog">选料</button>
+  </view>
+
+  <view class="poster-wrap" wx:if="{{posters.length}}">
+    <swiper class="poster-swiper" circular="{{posters.length > 1}}" autoplay="{{posters.length > 1}}" interval="4800" duration="700" easing-function="easeOutCubic" bindchange="onPosterChange" skip-hidden-item-layout="{{true}}">
+      <swiper-item wx:for="{{posters}}" wx:key="url" wx:for-index="index">
+        <view class="poster card" data-id="{{item.productId}}" bindtap="goDetail">
+          <image class="poster-image {{posterCurrent === index ? 'is-active' : ''}}" src="{{item.url}}" mode="aspectFill"></image>
+          <view class="poster-shade"></view>
+          <view class="poster-content" wx:if="{{item.title || item.copy}}">
+            <text class="hero-kicker">SEASONAL EDIT</text>
+            <text class="poster-title">{{item.title}}</text>
+            <text class="poster-copy">{{item.copy}}</text>
+            <view class="poster-cta" wx:if="{{item.productId}}">查看面料 <text>→</text></view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="carousel-dots" wx:if="{{posters.length > 1}}">
+      <view wx:for="{{posters}}" wx:key="url" class="carousel-dot {{posterCurrent === index ? 'is-active' : ''}}"></view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{hotProducts.length}}">
+    <view class="section-head">
+      <view><text class="eyebrow">SEASON'S FAVORITES</text><text class="section-title">当季热销</text></view>
+      <button class="section-link" bindtap="goCatalog">查看全部</button>
+    </view>
+    <swiper class="product-swiper" circular="{{hotProducts.length > 1}}" autoplay="{{hotProducts.length > 1}}" interval="5200" duration="650" easing-function="easeOutCubic" bindchange="onHotChange" previous-margin="18rpx" next-margin="18rpx" skip-hidden-item-layout="{{true}}">
+      <swiper-item wx:for="{{hotProducts}}" wx:key="id" wx:for-index="index">
+        <view class="product-slide {{hotCurrent === index ? 'is-active' : ''}}">
+          <view class="hot-product-card card" data-id="{{item.id}}" bindtap="goDetail">
+            <image class="hot-product-image {{hotCurrent === index ? 'is-active' : ''}}" src="{{item.gallery[0]}}" mode="aspectFill"></image>
+            <view class="hot-product-shade"></view>
+            <view class="hot-product-content">
+              <text class="hot-product-code">FABRIC · {{item.code}}</text>
+              <text class="hot-product-name">{{item.name}}</text>
+              <text class="hot-product-copy">{{item.description}}</text>
+              <view class="hot-product-cta">查看面料详情 <text>→</text></view>
+            </view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="carousel-dots ink-dots" wx:if="{{hotProducts.length > 1}}"><view wx:for="{{hotProducts}}" wx:key="id" class="carousel-dot {{hotCurrent === index ? 'is-active' : ''}}"></view></view>
+  </view>
+
+  <view class="section" wx:if="{{newProducts.length}}">
+    <view class="section-head">
+      <view><text class="eyebrow">JUST ARRIVED</text><text class="section-title">本期上新</text></view>
+      <text class="section-note">按上架时间更新</text>
+    </view>
+    <swiper class="product-swiper" circular="{{newProducts.length > 1}}" autoplay="{{newProducts.length > 1}}" interval="5600" duration="650" easing-function="easeOutCubic" bindchange="onNewChange" previous-margin="18rpx" next-margin="18rpx" skip-hidden-item-layout="{{true}}">
+      <swiper-item wx:for="{{newProducts}}" wx:key="id" wx:for-index="index">
+        <view class="product-slide {{newCurrent === index ? 'is-active' : ''}}">
+          <view class="product-card new-product-card card" data-id="{{item.id}}" bindtap="goDetail">
+            <image class="product-image" src="{{item.gallery[0]}}" mode="aspectFill"></image>
+            <view class="product-content">
+              <view class="product-topline"><text class="pill new-pill">NEW</text><text class="product-code">{{item.code}}</text></view>
+              <text class="product-name">{{item.name}}</text>
+              <text class="product-meta">{{item.weight}} · 门幅 {{item.width}}</text>
+              <view class="product-footer"><text>{{item.composition}}</text><view class="round-arrow">→</view></view>
+            </view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="carousel-dots ink-dots" wx:if="{{newProducts.length > 1}}"><view wx:for="{{newProducts}}" wx:key="id" class="carousel-dot {{newCurrent === index ? 'is-active' : ''}}"></view></view>
+  </view>
+
+  <view class="section" wx:if="{{cases.length}}">
+    <view class="section-head"><view><text class="eyebrow">FROM FABRIC TO FORM</text><text class="section-title">从布面到成衣</text></view></view>
+    <swiper class="case-swiper" circular="{{cases.length > 1}}" autoplay="{{cases.length > 1}}" interval="6000" duration="700" easing-function="easeOutCubic" bindchange="onCaseChange" skip-hidden-item-layout="{{true}}">
+      <swiper-item wx:for="{{cases}}" wx:key="id" wx:for-index="index">
+        <view class="look-grid {{caseCurrent === index ? 'is-active' : ''}}" data-id="{{item.productId}}" bindtap="goDetail">
+          <image class="look look-tall" src="{{item.images[0] || item.image}}" mode="aspectFill"></image>
+          <view class="look-copy card"><text class="look-number">{{item.productId || 'LOOK'}}</text><view><text class="look-title">{{item.title}}</text><text class="look-label">{{item.category}}</text></view></view>
+          <image class="look look-detail" src="{{item.images[1] || item.image}}" mode="aspectFill"></image>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="carousel-dots ink-dots" wx:if="{{cases.length > 1}}"><view wx:for="{{cases}}" wx:key="id" class="carousel-dot {{caseCurrent === index ? 'is-active' : ''}}"></view></view>
+  </view>
+
+  <view class="section consult-card card">
+    <text class="eyebrow">FABRIC SUPPORT</text>
+    <text class="consult-title">需要色卡或开发建议？</text>
+    <text class="consult-copy">将用途与计划数量告诉我们，面料顾问可协助选色与打样。</text>
+    <button class="primary-button" open-type="contact" session-from="homepage-advisor" show-message-card="true" send-message-title="衡弈纺织面料顾问" send-message-path="pages/index/index">联系面料顾问</button>
+  </view>
+</view>
+
+<view class="bottom-nav">
+  <button class="nav-item active" data-page="home" bindtap="onNav"><view class="nav-dot"></view><text>首页</text></button>
+  <button class="nav-item" data-page="catalog" bindtap="onNav"><view class="nav-dot"></view><text>分类</text></button>
+  <button class="nav-item" data-page="brand" bindtap="onNav"><view class="nav-dot"></view><text>品牌</text></button>
+  <button class="nav-item" data-page="samples" bindtap="onNav"><view class="nav-dot"></view><text>申请单</text></button>
+  <button class="nav-item" data-page="profile" bindtap="onNav"><view class="nav-dot"></view><text>我的</text></button>
+</view>

@@ -1,0 +1,59 @@
+<view class="page-shell profile-page">
+  <view class="topbar">
+    <view class="brand-lockup"><view class="brand-mark"><view class="brand-mark-core"></view></view><text class="brand-name">我的</text></view>
+    <button class="top-action topbar-safe-right" style="margin-right: {{topbarSafeRight}}px;" bindtap="settings">设置</button>
+  </view>
+
+  <view class="profile-card card">
+    <image wx:if="{{profile.avatarUrl}}" class="avatar avatar-image" src="{{profile.avatarUrl}}" mode="aspectFill"></image>
+    <view wx:else class="avatar">织</view>
+    <view class="profile-info"><text class="profile-name">{{profile.nickName || '微信用户'}}</text><text class="profile-status">管理样卡申请与收货信息</text></view>
+    <button class="profile-edit" bindtap="completeProfile">完善资料</button>
+  </view>
+
+  <view class="section">
+    <view class="section-head"><view><text class="eyebrow">REQUEST STATUS</text><text class="section-title">样卡申请</text></view><button class="section-link" bindtap="goRequests">查看申请单</button></view>
+    <view class="status-grid">
+      <button class="status-card card" data-status="pending" bindtap="goRequests"><text class="status-number">{{counts.pending}}</text><text>待确认</text></button>
+      <button class="status-card card" data-status="approved" bindtap="goRequests"><text class="status-number">{{counts.approved}}</text><text>待寄送</text></button>
+      <button class="status-card card" data-status="shipped" bindtap="goRequests"><text class="status-number">{{counts.shipped}}</text><text>已发货</text></button>
+    </view>
+  </view>
+
+  <view class="section profile-list card">
+    <button bindtap="goAddresses"><view><image class="list-icon" src="/assets/icons/address.png" mode="aspectFit"></image><text>收货地址</text></view><text>{{address ? '默认地址 →' : '添加 →'}}</text></button>
+    <button data-mode="favorites" bindtap="goSaved"><view><image class="list-icon" src="/assets/icons/favorite.png" mode="aspectFit"></image><text>收藏面料</text></view><text>→</text></button>
+    <button data-mode="history" bindtap="goSaved"><view><image class="list-icon" src="/assets/icons/history.png" mode="aspectFit"></image><text>浏览记录</text></view><text>→</text></button>
+    <button open-type="contact" session-from="profile-advisor" show-message-card="true" send-message-title="衡弈纺织面料顾问" send-message-path="pages/profile/index"><view><image class="list-icon" src="/assets/icons/advisor.png" mode="aspectFit"></image><text>联系面料顾问</text></view><text>→</text></button>
+  </view>
+
+  <view class="profile-note">申请记录、收藏和足迹会保存在当前设备；如需选款或查询样卡进度，可直接联系面料顾问。</view>
+</view>
+
+<view wx:if="{{editingProfile}}" class="profile-edit-mask">
+  <view class="profile-edit-sheet" catchtap="noop">
+    <view class="profile-edit-handle"></view>
+    <text class="profile-edit-eyebrow">PERSONAL PROFILE</text>
+    <text class="profile-edit-title">完善资料</text>
+    <text class="profile-edit-copy">点击头像选择微信头像，再点昵称框从微信键盘选择昵称。</text>
+
+    <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image wx:if="{{draftProfile.avatarUrl}}" class="avatar-picker-image" src="{{draftProfile.avatarUrl}}" mode="aspectFill"></image>
+      <view wx:else class="avatar-picker-placeholder">选择头像</view>
+    </button>
+    <input class="nickname-input" type="nickname" value="{{draftProfile.nickName}}" bindinput="onNicknameInput" bindconfirm="saveProfileEdit" confirm-type="done" placeholder="点击使用微信昵称" />
+
+    <view class="profile-edit-actions">
+      <button class="profile-edit-cancel" bindtap="cancelProfileEdit">取消</button>
+      <button class="profile-edit-save {{draftProfile.avatarUrl && draftProfile.nickName ? '' : 'is-disabled'}}" disabled="{{!draftProfile.avatarUrl || !draftProfile.nickName}}" bindtap="saveProfileEdit">保存资料</button>
+    </view>
+  </view>
+</view>
+
+<view class="bottom-nav">
+  <button class="nav-item" data-page="home" bindtap="onNav"><view class="nav-dot"></view><text>首页</text></button>
+  <button class="nav-item" data-page="catalog" bindtap="onNav"><view class="nav-dot"></view><text>分类</text></button>
+  <button class="nav-item" data-page="brand" bindtap="onNav"><view class="nav-dot"></view><text>品牌</text></button>
+  <button class="nav-item" data-page="samples" bindtap="onNav"><view class="nav-dot"></view><text>申请单</text></button>
+  <button class="nav-item active" data-page="profile" bindtap="onNav"><view class="nav-dot"></view><text>我的</text></button>
+</view>

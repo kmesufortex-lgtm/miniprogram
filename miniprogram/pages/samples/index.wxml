@@ -1,0 +1,71 @@
+<view class="page-shell samples-page">
+  <view class="topbar">
+    <view class="brand-lockup"><view class="brand-mark"><view class="brand-mark-core"></view></view><text class="brand-name">样卡申请</text></view>
+    <text class="sample-count topbar-safe-right" style="margin-right: {{topbarSafeRight}}px;">{{items.length}} 款</text>
+  </view>
+
+  <view class="sample-intro">
+    <text class="eyebrow">SAMPLE REQUEST</text>
+    <text class="sample-title">先看样，再决定</text>
+    <text class="sample-copy">确认需要寄送的面料样卡。样卡免费提供，快递费到付，默认使用顺丰快递。</text>
+  </view>
+
+  <block wx:if="{{items.length}}">
+    <view wx:for="{{items}}" wx:key="id" class="sample-card card">
+      <image class="sample-image" src="{{item.image}}" mode="aspectFill"></image>
+      <view class="sample-content">
+        <view class="sample-line"><text class="sample-name">{{item.name}}</text><button class="delete-button" data-id="{{item.id}}" bindtap="removeItem">×</button></view>
+        <text class="sample-code">货号 {{item.id}}</text>
+        <text class="sample-spec">A4 样卡 · 实际颜色以实物为准</text>
+        <view class="quantity-row">
+        <text class="free-label">样卡免费提供</text>
+          <view class="quantity-control">
+            <text>每款限 1 份</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="summary card">
+      <view><text>已选面料</text><text>{{items.length}} 款</text></view>
+      <view><text>样卡数量</text><text>{{items.length}} 份</text></view>
+      <view><text>邮费</text><text>顺丰到付</text></view>
+      <button class="primary-button" bindtap="submitRequest">提交样卡申请</button>
+    </view>
+  </block>
+
+  <view wx:else class="empty-state card">
+    <view class="empty-swatch"></view>
+    <text class="empty-title">申请单还是空的</text>
+    <text class="empty-copy">在产品详情中选择“加入样卡”，面料就会出现在这里。</text>
+    <button class="secondary-button" bindtap="goCatalog">去选择面料</button>
+  </view>
+</view>
+
+<view class="modal-mask" wx:if="{{showConfirm}}" bindtap="closeConfirm">
+  <view class="confirm-sheet" catchtap="noop">
+    <view class="sheet-handle"></view>
+    <text class="confirm-title">确认申请信息</text>
+    <text class="confirm-tip">共 {{items.length}} 款，每款固定 1 份</text>
+    <view class="shipping-notice">
+      <text class="shipping-notice-title">寄送说明</text>
+      <text class="shipping-notice-copy">样卡免费提供，快递费到付，默认发顺丰快递。</text>
+      <button class="contact-link" open-type="contact" session-from="sample-shipping" send-message-title="咨询样卡寄送" send-message-path="pages/samples/index">需要指定快递？联系客服</button>
+    </view>
+    <view class="address-preview" bindtap="chooseAddress">
+      <view><text class="address-name">{{address.name}} · {{address.phone}}</text><text class="address-detail">{{address.province}}{{address.city}}{{address.district}}{{address.detail}}</text></view>
+      <text>更换</text>
+    </view>
+    <textarea class="remark-input" maxlength="120" placeholder="备注（选填），例如希望了解的颜色" value="{{remark}}" bindinput="onRemark"></textarea>
+    <button class="primary-button" loading="{{submitting}}" bindtap="confirmSubmit">确认提交</button>
+    <button class="sheet-cancel" bindtap="closeConfirm">取消</button>
+  </view>
+</view>
+
+<view class="bottom-nav">
+  <button class="nav-item" data-page="home" bindtap="onNav"><view class="nav-dot"></view><text>首页</text></button>
+  <button class="nav-item" data-page="catalog" bindtap="onNav"><view class="nav-dot"></view><text>分类</text></button>
+  <button class="nav-item" data-page="brand" bindtap="onNav"><view class="nav-dot"></view><text>品牌</text></button>
+  <button class="nav-item active" data-page="samples" bindtap="onNav"><view class="nav-dot"></view><text>申请单</text></button>
+  <button class="nav-item" data-page="profile" bindtap="onNav"><view class="nav-dot"></view><text>我的</text></button>
+</view>

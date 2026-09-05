@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="衡弈纺织小程序运营后台原型" />
+    <title>衡弈纺织 · 运营后台</title>
+    <link rel="stylesheet" href="./styles.css?v=20260817-4" />
+  </head>
+  <body>
+    <section id="loginScreen" class="login-screen" aria-labelledby="loginTitle">
+      <div class="login-visual" aria-hidden="true">
+        <div class="login-grid"></div>
+        <div class="login-mark"><span></span><i></i></div>
+        <p>HENGYI TEXTILE</p>
+        <strong>把趋势，织成<br />可落地的面料。</strong>
+        <small>FAST FASHION WOVEN MATERIALS</small>
+      </div>
+      <div class="login-panel">
+        <div class="login-brand"><span class="brand-swatch" aria-hidden="true"><i></i></span><span><b>衡弈纺织</b><small>FABRIC DESK</small></span></div>
+        <div class="login-heading">
+          <p class="eyebrow">OPERATIONS DESK</p>
+          <h1 id="loginTitle">欢迎回来</h1>
+          <p>登录后台，管理面料档案、首页内容与样卡申请。</p>
+        </div>
+        <form id="loginForm" class="login-form" novalidate>
+          <label><span>账号</span><input name="username" autocomplete="username" value="admin" required /></label>
+          <label><span>密码</span><input name="password" type="password" autocomplete="current-password" required /></label>
+          <div id="loginError" class="login-error" role="alert" hidden></div>
+          <button class="button button-primary login-submit" type="submit"><span>进入后台</span><b aria-hidden="true">↗</b></button>
+          <p class="login-note">仅限授权管理员使用 · 会话有效期 8 小时</p>
+        </form>
+      </div>
+    </section>
+
+    <div class="admin-shell" id="adminShell" hidden>
+      <aside class="sidebar" aria-label="后台主导航">
+        <div class="brand">
+          <span class="brand-swatch" aria-hidden="true"><i></i></span>
+          <span><strong>衡弈纺织</strong><small>FABRIC DESK</small></span>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item is-active" data-view="dashboard"><span>工作台</span><small>今日</small></button>
+          <button class="nav-item" data-view="products"><span>面料</span><small id="navProductCount">1</small></button>
+          <button class="nav-item" data-view="series"><span>分类</span><small id="navCategoryCount">7</small></button>
+          <button class="nav-item" data-view="cases"><span>案例</span><small id="navCaseCount">2</small></button>
+          <button class="nav-item" data-view="requests"><span>样卡申请</span><small id="navRequestCount">4</small></button>
+          <button class="nav-item" data-view="customers"><span>客户</span><small id="navCustomerCount">0</small></button>
+          <button class="nav-item" data-view="homepage"><span>首页配置</span><small>编辑</small></button>
+        </nav>
+
+        <div class="sidebar-foot">
+          <span class="env-dot"></span>
+          <span><strong>自建服务器</strong><small id="cloudStatus">正在连接服务器</small></span>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="breadcrumb">运营后台 / <span id="currentCrumb">工作台</span></p>
+            <h1 id="viewTitle">今天先处理这些</h1>
+          </div>
+          <div class="top-actions">
+            <label class="global-search">
+              <span aria-hidden="true">⌕</span>
+              <input id="globalSearch" type="search" placeholder="搜索货号、客户或申请单" />
+              <kbd>⌘ K</kbd>
+            </label>
+            <button class="button button-ghost" id="previewMini">预览小程序</button>
+            <button class="button button-primary" id="createProduct">＋ 新增面料</button>
+          </div>
+        </header>
+
+        <section id="appView" class="view" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <dialog id="productDialog" class="editor-dialog">
+      <form id="productForm" method="dialog" novalidate>
+        <header class="editor-head">
+          <div>
+            <p class="eyebrow">FABRIC RECORD</p>
+            <h2 id="editorTitle">新增面料</h2>
+            <p>保存草稿不会出现在小程序，上架后才会公开展示。</p>
+          </div>
+          <div class="editor-actions">
+            <span id="saveState" class="save-state">尚未保存</span>
+            <button class="button button-ghost" id="closeProduct" type="button">关闭</button>
+            <button class="button button-secondary" id="saveDraft" type="button">保存草稿</button>
+            <button class="button button-ghost" id="takeOfflineProduct" type="button">保存并下架</button>
+            <button class="button button-primary" id="publishProduct" type="submit">保存并上架</button>
+          </div>
+        </header>
+        <div id="saveError" class="save-error" role="alert" hidden></div>
+
+        <div class="editor-layout">
+          <div class="editor-fields">
+            <section class="form-section" data-section="基础信息">
+              <div class="form-section-head"><span>01</span><div><h3>基础信息</h3><p>顾客识别这款面料所需的主要文字。</p></div></div>
+              <div class="form-grid">
+                <label><span>货号 <b>*</b></span><input name="code" required placeholder="例如 FA227" /></label>
+                <label><span>中文名称 <b>*</b></span><input name="name" required placeholder="例如 TR 羊毛混纺系列" /></label>
+                <div class="category-field">
+                  <span class="field-label">分类 <em><b id="categoryCount">0</b> 项已选</em></span>
+                  <div class="tag-input-shell category-input-shell" id="categoryInputShell">
+                    <div id="selectedCategoryPills" class="selected-tag-pills"></div>
+                    <span id="categoryPlaceholder" class="category-placeholder">从标准分类库选择</span>
+                    <button id="openCategoryDrawer" type="button">选择分类</button>
+                  </div>
+                  <small class="field-help">分类用于小程序筛选；只能从分类库选择，不能在产品编辑页新增。</small>
+                  <div id="categoryDrawer" class="tag-popover category-popover" hidden>
+                    <div id="categoryDrawerForm">
+                      <header class="drawer-head"><div><h2 id="categoryDrawerTitle">选择产品分类</h2><p id="categoryDrawerCopy">先选择一级分类，再选择属于产品的标签。</p></div><button id="closeCategoryDrawer" type="button" aria-label="关闭">×</button></header>
+                      <div class="drawer-body">
+                        <button id="backCategoryGroups" class="category-back" type="button" hidden>← 返回一级分类</button>
+                        <div id="categoryGroupList" class="category-group-list"></div>
+                        <div id="categoryTagList" class="category-tag-panel" hidden></div>
+                      </div>
+                      <footer class="drawer-foot"><button class="button button-ghost" id="cancelCategoryDrawer" type="button">取消</button><button class="button button-primary" id="confirmCategories" type="button">确认选择</button></footer>
+                    </div>
+                  </div>
+                </div>
+                <label class="span-2"><span>面料简介 <b>*</b><em id="descriptionCount">0 / 160</em></span><textarea name="description" required maxlength="160" rows="4" placeholder="说明质感、穿着感受与适合场景，不必堆叠形容词。"></textarea></label>
+                <label><span>报价提示</span><input name="quoteLabel" value="咨询报价" /></label>
+                <div class="tag-field">
+                  <span class="field-label">特色标签 <em><b id="tagCount">0</b> / 5</em></span>
+                  <div class="tag-input-shell" id="tagInputShell">
+                    <div id="selectedTagPills" class="selected-tag-pills"></div>
+                    <input id="tagInlineInput" type="text" placeholder="输入标签后按逗号，或从标签库选择" />
+                    <button id="openTagDrawer" type="button">选择标签</button>
+                  </div>
+                  <small class="field-help">特色标签只用于产品展示；色数、克重和门幅会由系统单独显示。</small>
+                  <div id="tagDrawer" class="tag-popover" hidden>
+                    <div id="tagDrawerForm">
+                      <header class="drawer-head"><div><h2>选择特色标签</h2><p>优先复用已有标签，每款面料最多选择5个。</p></div><button id="closeTagDrawer" type="button" aria-label="关闭">×</button></header>
+                      <div class="drawer-body">
+                        <section class="tag-library-section"><div class="drawer-section-head"><h3>全部标签</h3><span>点击选择，再次点击取消</span></div><div id="tagLibraryCloud" class="tag-cloud"></div></section>
+                        <div class="tag-warning"><strong>新增标签提醒</strong><p>自由输入的标签会生成新的特色标签，请确认现有标签中没有含义相近的标签。</p></div>
+                      </div>
+                      <footer class="drawer-foot"><button class="button button-ghost" id="cancelTagDrawer" type="button">取消</button><button class="button button-primary" id="confirmTags" type="button">确认选择</button></footer>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="form-section" data-section="规格信息">
+              <div class="form-section-head"><span>02</span><div><h3>规格与成分</h3><p>规格会直接出现在产品详情页。</p></div></div>
+              <div class="form-grid">
+                <label class="span-2"><span>成分 <b>*</b></span><textarea name="composition" required rows="3" placeholder="62% POLYESTER · 26% RAYON · 9% WOOL · 3% SP"></textarea></label>
+                <label><span>克重 <b>*</b></span><input name="weight" required placeholder="240GSM" /></label>
+                <label><span>门幅 <b>*</b></span><input name="width" required placeholder="150CM" /></label>
+                <label><span>色数 <b>*</b></span><input name="colorCount" type="number" min="1" required placeholder="例如 14" /></label>
+                <label><span>色号范围 <em>根据色数自动生成</em></span><input name="colorRange" readonly placeholder="填写色数后自动生成" /></label>
+              </div>
+              <div id="customSpecs" class="repeat-list"></div>
+              <button class="text-button" type="button" id="addSpec">＋ 增加自定义规格</button>
+            </section>
+
+            <section class="form-section" data-section="产品图片">
+              <div class="form-section-head"><span>03</span><div><h3>产品图片</h3><p>三组图片用途独立，均可拖动调整展示顺序。</p></div></div>
+              <div class="media-group">
+                <div class="media-group-head"><div><h4>顶部轮播图 <b>*</b></h4><p>上传4–6张；第一张自动作为产品封面和样卡缩略图。</p></div><span id="galleryCount">0 / 6</span></div>
+                <div class="upload-strip" id="galleryUpload"></div>
+              </div>
+              <div class="media-group">
+                <div class="media-group-head"><div><h4>详情页图片</h4><p>不限张数，按排序在产品详情中纵向展示。</p></div><span id="detailCount">0 张</span></div>
+                <div class="upload-strip" id="detailUpload"></div>
+              </div>
+              <div class="media-group">
+                <div class="media-group-head"><div><h4>电子色卡图</h4><p>支持多张图片，不与色数进行数量校验。</p></div><span id="colorCardCount">0 张</span></div>
+                <div class="upload-strip" id="colorCardUpload"></div>
+              </div>
+            </section>
+
+            <section class="form-section" data-section="推荐用途">
+              <div class="form-section-head"><span>04</span><div><h3>推荐用途</h3><p>帮助顾客理解面料适合做成什么。</p></div></div>
+              <div id="usesList" class="repeat-list"></div>
+              <button class="text-button" type="button" id="addUse">＋ 增加推荐用途</button>
+            </section>
+          </div>
+
+          <aside class="preview-panel">
+            <div class="preview-sticky">
+              <div class="preview-label"><span>小程序预览</span><small>随输入更新</small></div>
+              <div class="phone-frame">
+                <div class="phone-status"><span>9:41</span><i></i></div>
+                <div class="phone-scroll" id="phoneScroll">
+                  <div class="phone-gallery" id="previewGallery"><div class="phone-image-placeholder">轮播图预览</div></div>
+                  <div class="phone-copy">
+                    <small id="previewSeries">FABRIC · NEW</small>
+                    <h3 id="previewName">未命名面料</h3>
+                    <div id="previewTags" class="phone-tags"><span>特色标签</span></div>
+                    <p id="previewDescription">填写面料简介后，将在这里看到顾客实际阅读到的内容。</p>
+                    <dl><div><dt>成分</dt><dd id="previewComposition">—</dd></div><div><dt>克重</dt><dd id="previewWeight">—</dd></div><div><dt>门幅</dt><dd id="previewWidth">—</dd></div></dl>
+                  </div>
+                  <section class="phone-section" id="previewUsesSection"><h4>推荐用途</h4><div id="previewUses"></div></section>
+                  <section class="phone-section" id="previewDetailsSection"><h4>面料详情</h4><div id="previewDetailImages" class="phone-image-stack"></div></section>
+                  <section class="phone-section" id="previewColorCardsSection"><h4>电子色卡</h4><div id="previewColorCardImages" class="phone-image-stack"></div></section>
+                </div>
+              </div>
+              <div class="completion"><span><i id="completionBar"></i></span><p><b id="completionValue">0%</b> 内容完整度</p></div>
+            </div>
+          </aside>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="homeDialog" class="compact-dialog">
+      <form id="homeForm" method="dialog">
+        <header><div><p class="eyebrow">HOMEPAGE FEATURE</p><h2>编辑首页主推</h2></div><button id="closeHome" type="button" aria-label="关闭">×</button></header>
+        <label><span>主推面料</span><select name="featuredProduct" id="featuredProductSelect"></select></label>
+        <label><span>主视觉标题</span><textarea name="heroTitle" rows="2" maxlength="36"></textarea></label>
+        <label><span>主视觉说明</span><textarea name="heroCopy" rows="3" maxlength="100"></textarea></label>
+        <p class="form-note">货号、名称、克重、门幅和色数会自动读取，不需要重复填写。</p>
+        <footer><button class="button button-ghost" id="cancelHome" type="button">取消</button><button class="button button-primary" type="submit">保存首页配置</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="categoryManageDialog" class="compact-dialog">
+      <form id="categoryManageForm" method="dialog">
+        <header><div><p class="eyebrow">CATEGORY LIBRARY</p><h2 id="categoryManageTitle">新增分类</h2></div><button id="closeCategoryManage" type="button" aria-label="关闭">×</button></header>
+        <input type="hidden" name="mode" value="group" />
+        <input type="hidden" name="editId" />
+        <label id="categoryParentField"><span>所属一级分类</span><select name="parentId"></select></label>
+        <label><span id="categoryNameLabel">分类名称</span><input name="name" required maxlength="16" placeholder="请输入名称" /></label>
+        <label id="categoryModeField"><span>产品选择方式</span><select name="selectionMode"><option value="multiple">支持多选</option><option value="single">仅可单选</option></select></label>
+        <p class="form-note">产品编辑页只允许选择；一级、二级分类统一在这里维护。</p>
+        <footer><button class="button button-ghost" id="cancelCategoryManage" type="button">取消</button><button class="button button-primary" type="submit">保存分类</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="categoryWarningDialog" class="compact-dialog warning-dialog">
+      <form method="dialog">
+        <header><div><p class="eyebrow">CLASSIFICATION CHECK</p><h2>还有分类尚未选择</h2></div></header>
+        <p id="categoryWarningCopy" class="warning-copy"></p>
+        <p class="form-note">分类不是必填项，可以继续保存，后续再补充。</p>
+        <footer><button class="button button-ghost" id="returnToCategories" type="button">返回补充</button><button class="button button-primary" id="continueSaveProduct" type="button">仍然保存</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="previewMiniDialog" class="compact-dialog preview-mini-dialog">
+      <form id="previewMiniForm" method="dialog">
+        <header>
+          <div><p class="eyebrow">MINI PROGRAM PREVIEW</p><h2>预览小程序</h2></div>
+          <button id="closePreviewMini" type="button" aria-label="关闭">×</button>
+        </header>
+        <label><span>预览页面</span><select id="previewMiniPage" name="page">
+          <option value="pages/index/index">首页</option>
+          <option value="pages/catalog/index">面料分类</option>
+          <option value="pages/requests/index">样卡申请</option>
+          <option value="pages/profile/index">我的</option>
+        </select></label>
+        <div id="previewMiniState" class="preview-mini-state">正在准备预览二维码…</div>
+        <div id="previewMiniQr" class="preview-mini-qr" hidden></div>
+        <p class="form-note">请使用微信扫码。二维码对应体验版环境，手机端需在体验成员范围内。</p>
+        <footer><button class="button button-ghost" id="refreshPreviewMini" type="button">重新生成</button><button class="button button-primary" id="donePreviewMini" type="button">完成</button></footer>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status"></div>
+    <script src="./app.js?v=20260902-2" defer></script>
+  </body>
+</html>

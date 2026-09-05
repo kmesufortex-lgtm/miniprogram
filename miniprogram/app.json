@@ -1,0 +1,27 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/index",
+    "pages/catalog/index",
+    "pages/detail/index",
+    "pages/brand/index",
+    "pages/samples/index",
+    "pages/profile/index",
+    "pages/addresses/index",
+    "pages/requests/index",
+    "pages/saved/index"
+  ],
+  "window": {
+    "backgroundColor": "#F4F3EE",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F4F3EE",
+    "navigationBarTitleText": "衡弈纺织",
+    "navigationBarTextStyle": "black",
+    "navigationStyle": "custom"
+  },
+  "sitemapLocation": "sitemap.json",
+  "requiredPrivateInfos": [
+    "chooseAddress"
+  ],
+  "style": "v2"
+}

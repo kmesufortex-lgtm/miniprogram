@@ -1,0 +1,113 @@
+<view class="request-page">
+  <view class="request-head">
+    <view class="request-back" bindtap="goBack">←</view>
+    <view class="request-heading"><text class="eyebrow">REQUEST HISTORY</text><text class="request-title">样卡申请记录</text></view>
+  </view>
+
+  <view class="status-tabs">
+    <view class="status-tab {{active === 'all' ? 'active' : ''}}" data-status="all" bindtap="chooseStatus">全部</view>
+    <view class="status-tab {{active === 'pending' ? 'active' : ''}}" data-status="pending" bindtap="chooseStatus">待确认</view>
+    <view class="status-tab {{active === 'approved' ? 'active' : ''}}" data-status="approved" bindtap="chooseStatus">待寄送</view>
+    <view class="status-tab {{active === 'shipped' ? 'active' : ''}}" data-status="shipped" bindtap="chooseStatus">已发货</view>
+  </view>
+
+  <view class="sync-note" wx:if="{{loading}}"><view class="sync-dot"></view><text>正在同步最新进度</text></view>
+
+  <view class="request-card card {{item.isCancelled ? 'is-cancelled' : ''}}" wx:for="{{visible}}" wx:key="id">
+    <view class="request-meta"><text class="request-number">{{item.id}}</text><text class="status-pill">{{item.statusLabel}}</text></view>
+    <view class="mini-progress" wx:if="{{!item.isCancelled}}">
+      <view class="mini-step {{step.done ? 'done' : ''}} {{step.current ? 'current' : ''}}" wx:for="{{item.steps}}" wx:for-item="step" wx:key="label"><view class="mini-node"></view><text>{{step.label}}</text></view>
+    </view>
+    <view class="cancelled-line" wx:else><view></view><text>这张申请单已取消</text></view>
+    <view class="request-preview">
+      <image class="request-cover" src="{{item.items[0].image}}" mode="aspectFill"></image>
+      <view class="request-preview-copy"><text class="request-product-name">{{item.items[0].name}}</text><text class="request-product-meta">{{item.items.length}} 款面料 · 共 {{item.items.length}} 份</text><text class="request-address">{{item.address.city}}{{item.address.district}}</text></view>
+      <text class="request-arrow">↗</text>
+    </view>
+    <view class="request-actions">
+      <text>{{item.dateLabel}}</text>
+      <view class="card-action-group">
+        <button class="quick-edit-button" wx:if="{{active === 'all' && item.canModify}}" data-id="{{item.id}}" bindtap="openEditFromCard">修改申请</button>
+        <button class="detail-button" data-id="{{item.id}}" bindtap="openDetail">查看详情</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state card" wx:if="{{!loading && !visible.length}}"><text class="empty-title">暂无申请记录</text><text class="empty-copy">加入面料样卡并填写收货地址后，申请进度会显示在这里。</text></view>
+</view>
+
+<view class="request-mask" wx:if="{{showDetail}}" bindtap="closeDetail">
+  <view class="detail-sheet" catchtap="noop">
+    <view class="sheet-handle"></view>
+    <view class="detail-head"><view><text class="eyebrow">REQUEST DETAIL</text><text class="detail-title">申请详情</text><text class="detail-number">{{detail.id}}</text></view><button bindtap="closeDetail">×</button></view>
+
+    <scroll-view class="detail-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <view class="detail-status card-lite">
+        <view class="section-line"><text>当前进度</text><text class="status-pill">{{detail.statusLabel}}</text></view>
+        <view class="detail-progress" wx:if="{{!detail.isCancelled}}">
+          <view class="detail-step {{step.done ? 'done' : ''}} {{step.current ? 'current' : ''}}" wx:for="{{detail.steps}}" wx:for-item="step" wx:key="label"><view class="detail-node"></view><text>{{step.label}}</text></view>
+        </view>
+        <view class="cancelled-message" wx:else><text>申请已取消</text><text>{{detail.cancelReason || '客户主动取消'}}</text></view>
+        <text class="updated-time" wx:if="{{detail.updatedLabel}}">最近更新 {{detail.updatedLabel}}</text>
+      </view>
+
+      <view class="detail-section card-lite">
+        <view class="section-line"><text>申请面料</text><text>{{detail.items.length}} 款</text></view>
+        <view class="detail-item" wx:for="{{detail.items}}" wx:for-item="fabric" wx:key="id"><image src="{{fabric.image}}" mode="aspectFill"></image><view><text>{{fabric.name}}</text><text>货号 {{fabric.code}} · {{fabric.quantity || 1}} 份</text></view></view>
+      </view>
+
+      <view class="detail-section card-lite">
+        <view class="section-line"><text>收货信息</text></view>
+        <view class="contact-line"><text>{{detail.contact.name || detail.address.name}}</text><text>{{detail.contact.phone || detail.address.phone}}</text></view>
+        <text class="full-address">{{detail.fullAddress}}</text>
+      </view>
+
+      <view class="detail-section card-lite">
+        <view class="section-line"><text>其他信息</text></view>
+        <view class="info-row"><text>申请时间</text><text>{{detail.dateLabel}}</text></view>
+        <view class="info-row"><text>邮费</text><text>{{detail.shippingFee || '待确认'}}</text></view>
+        <view class="info-row" wx:if="{{detail.trackingCompany}}"><text>物流公司</text><text>{{detail.trackingCompany}}</text></view>
+        <view class="info-row tracking-number-row" wx:if="{{detail.trackingNumber}}">
+          <text>货运单号</text>
+          <view class="tracking-value"><text selectable>{{detail.trackingNumber}}</text><button bindtap="copyTracking">复制</button></view>
+        </view>
+        <view class="remark-block"><text>申请备注</text><text>{{detail.remark || '无备注'}}</text></view>
+      </view>
+      <view class="detail-bottom-space"></view>
+    </scroll-view>
+
+    <view class="detail-actions">
+      <button class="cancel-button" wx:if="{{detail.canCancel}}" bindtap="cancelCurrent" loading="{{saving}}">取消申请</button>
+      <button class="edit-button" wx:if="{{detail.canModify}}" bindtap="openEdit">修改申请</button>
+      <button class="done-button" wx:if="{{!detail.canModify && !detail.canCancel}}" bindtap="closeDetail">完成</button>
+    </view>
+  </view>
+</view>
+
+<view class="request-mask" wx:if="{{showEdit}}" bindtap="closeEdit">
+  <view class="edit-sheet" catchtap="noop">
+    <view class="sheet-handle"></view>
+    <view class="edit-head"><text class="eyebrow">EDIT REQUEST</text><text class="detail-title">修改申请信息</text><text class="edit-tip">待确认期间可以删减面料，并修改收货信息与备注。</text></view>
+    <scroll-view class="edit-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <view class="edit-fabrics">
+        <view class="edit-section-title"><text>申请面料</text><text>{{editItems.length}} 款</text></view>
+        <view class="edit-fabric" wx:for="{{editItems}}" wx:for-item="fabric" wx:key="id">
+          <image src="{{fabric.image}}" mode="aspectFill"></image>
+          <view><text>{{fabric.name}}</text><text>货号 {{fabric.code}} · {{fabric.quantity || 1}} 份</text></view>
+          <button data-id="{{fabric.id}}" bindtap="removeEditItem" disabled="{{editItems.length <= 1}}">移除</button>
+        </view>
+        <text class="edit-minimum-tip" wx:if="{{editItems.length <= 1}}">申请单至少需要保留一款面料</text>
+      </view>
+      <view class="edit-address" bindtap="chooseEditAddress">
+        <view class="edit-address-main">
+          <view class="edit-address-title"><text>收货地址</text><text>已设置</text></view>
+          <view class="edit-address-contact"><text>{{editAddress.name}}</text><text>{{editAddress.phone}}</text></view>
+          <text class="edit-address-detail">{{editAddress.province}}{{editAddress.city}}{{editAddress.district}}{{editAddress.detail}}</text>
+        </view>
+        <view class="edit-address-change"><text>更换</text><text>→</text></view>
+      </view>
+      <textarea class="edit-remark" maxlength="120" value="{{editRemark}}" placeholder="备注（选填），例如希望了解的颜色" bindinput="onEditRemark"></textarea>
+    </scroll-view>
+    <view class="edit-actions"><button class="save-edit" bindtap="saveEdit" loading="{{saving}}">保存修改</button><button class="close-edit" bindtap="closeEdit">暂不修改</button></view>
+  </view>
+</view>

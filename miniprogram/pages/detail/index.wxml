@@ -1,0 +1,76 @@
+<view class="detail-page" wx:if="{{product}}">
+  <view class="detail-topbar">
+    <button class="circle-button back-button" bindtap="goBack">←</button>
+    <view class="brand-lockup"><view class="brand-mark"><view class="brand-mark-core"></view></view><text class="detail-brand">衡弈纺织</text></view>
+    <button class="circle-button share-button" style="right: {{shareButtonRight}}px;" open-type="share">↗</button>
+  </view>
+
+  <view class="gallery-wrap">
+    <swiper class="gallery" circular indicator-dots="{{false}}" bindchange="onSlide">
+      <swiper-item wx:for="{{product.gallery}}" wx:key="*this">
+        <image class="gallery-image" src="{{item}}" mode="aspectFill" data-index="{{index}}" bindtap="preview"></image>
+      </swiper-item>
+    </swiper>
+    <text class="gallery-counter">{{current + 1}} / {{product.gallery.length}}</text>
+  </view>
+
+  <view class="detail-body">
+    <view class="detail-heading">
+      <view><text class="eyebrow">{{product.seriesEn}}</text><text class="detail-title">{{product.name}}</text></view>
+      <text class="detail-code">{{product.code}}</text>
+    </view>
+    <text class="detail-intro">{{product.description}}</text>
+    <text class="detail-quote">{{product.quoteLabel}}</text>
+    <view class="tag-row"><text class="pill" wx:for="{{product.tags}}" wx:key="*this">{{item}}</text></view>
+
+    <view class="detail-section">
+      <text class="detail-section-title">产品规格</text>
+      <view class="spec-grid">
+        <view class="spec {{index === 0 ? 'spec-wide' : ''}}" wx:for="{{product.specifications}}" wx:key="label">
+          <text class="spec-label">{{item.label}}</text>
+          <view wx:if="{{index === 0}}" class="composition-value">
+            <text class="composition-token" wx:for="{{product.compositionParts}}" wx:key="*this">{{item}}</text>
+          </view>
+          <text wx:else class="spec-value {{item.compact ? 'long' : ''}}">{{item.value}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="detail-section" wx:if="{{product.detailImages.length}}">
+      <text class="detail-section-title">面料详情</text>
+      <image class="color-card card" wx:for="{{product.detailImages}}" wx:key="*this" src="{{item}}" mode="widthFix" data-src="{{item}}" bindtap="previewAsset"></image>
+    </view>
+
+    <view class="detail-section" wx:if="{{product.recommendedUses.length}}">
+      <text class="detail-section-title">推荐用途</text>
+      <view class="use-list">
+        <view class="use-item" wx:for="{{product.recommendedUses}}" wx:key="title">
+          <text>{{item.order}}</text>
+          <view><text class="use-title">{{item.title}}</text><text class="use-copy">{{item.description}}</text></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="detail-section" wx:if="{{product.colorCardImages.length}}">
+      <view class="detail-section-head"><text class="detail-section-title">电子色卡</text><text class="detail-note">{{product.colorRange}}</text></view>
+      <image class="color-card card" wx:for="{{product.colorCardImages}}" wx:key="*this" src="{{item}}" mode="widthFix" data-src="{{item}}" bindtap="previewAsset"></image>
+    </view>
+  </view>
+
+  <view class="detail-quick-actions">
+    <button class="quick-action" open-type="contact" session-from="product-detail-{{product.code}}" show-message-card="true" send-message-title="{{product.name}} · {{product.code}}" send-message-path="pages/detail/index?id={{product.id}}" send-message-img="{{product.sampleImage}}">咨询面料顾问</button>
+    <button class="quick-action" bindtap="goSamples">样卡申请单</button>
+  </view>
+  <view class="detail-fab-stack">
+    <button class="detail-fab favorite-fab {{favorite ? 'is-favorite' : ''}}" bindtap="toggleFavorite">
+      <text>{{favorite ? '已收藏' : '收藏'}}</text><text class="favorite-heart">♥</text>
+    </button>
+    <button class="detail-fab sample-fab" bindtap="addSample"><text class="sample-fab-plus">＋</text><text>加入样卡</text></button>
+  </view>
+</view>
+
+<view class="detail-load-error" wx:elif="{{loadFailed}}">
+  <text class="empty-title">产品暂时无法显示</text>
+  <text class="empty-copy">请返回产品目录后重新进入。</text>
+  <button class="secondary-button" bindtap="goBack">返回上一页</button>
+</view>

@@ -1,0 +1,84 @@
+<view class="brand-page page-shell">
+  <view class="brand-topbar">
+    <view class="brand-lockup">
+      <view class="brand-mark"><view class="brand-mark-core"></view></view>
+      <view class="brand-lockup-copy">
+        <text class="brand-name">衡弈</text>
+        <text class="brand-subname">纺织品有限公司</text>
+      </view>
+    </view>
+    <text class="brand-code">HY / 2026</text>
+  </view>
+
+  <view class="brand-hero">
+    <image class="brand-hero-texture" src="/assets/brand/brand-hero-light.jpg" mode="aspectFill"></image>
+    <view class="brand-hero-wash"></view>
+    <view class="brand-hero-copy">
+      <text class="hero-kicker">HENGYI TEXTILE · WOVEN MATERIALS</text>
+      <view class="hero-title"><text>把流行，织成</text><text class="hero-title-accent">可落地的面料。</text></view>
+      <text class="hero-description">广州市衡弈纺织品有限公司，专注快时尚梭织面料。把趋势、手感与成衣效率，整理成可以直接选择的面料方案。</text>
+      <button class="hero-action" bindtap="goCatalog"><text>浏览面料档案</text><text class="hero-action-arrow">↗</text></button>
+    </view>
+    <view class="hero-caption"><text>FA227 / TR WOOL BLEND</text><text>TEXTURE STUDY 01</text></view>
+  </view>
+
+  <view class="brand-metrics">
+    <view class="metric"><text class="metric-value">WOVEN</text><text class="metric-label">主营品类</text></view>
+    <view class="metric"><text class="metric-value">FAST</text><text class="metric-label">开发节奏</text></view>
+    <view class="metric"><text class="metric-value">READY</text><text class="metric-label">成衣导向</text></view>
+  </view>
+
+  <view class="brand-section intro-section">
+    <view class="section-kicker"><text>ABOUT HENGYI</text><text class="section-kicker-line"></text></view>
+    <view class="intro-layout">
+      <view class="section-title"><text>我们不只提供</text><text class="section-title-muted">一块布。</text></view>
+      <view class="intro-copy">
+        <text>我们把面料变成更容易被理解、被比较、被推进的开发语言。</text>
+        <text>从布面纹理、成分和克重，到它适合的廓形与穿着场景，衡弈用一套清楚的面料档案，帮助品牌更快做出判断。</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="brand-section method-section">
+    <view class="section-heading-row"><view><text class="section-eyebrow">OUR METHOD</text><text class="section-title-small">从趋势，到成衣</text></view><text class="section-side-note">HENGYI / 03</text></view>
+    <view class="method-list">
+      <view class="method-card">
+        <text class="method-no">01</text>
+        <view class="method-copy"><text class="method-title">先看手感</text><text class="method-description">近距离观察布面、光泽和垂坠，让第一印象有依据。</text></view>
+      </view>
+      <view class="method-card is-dark">
+        <text class="method-no">02</text>
+        <view class="method-copy"><text class="method-title">再看参数</text><text class="method-description">成分、幅宽、克重和色号，决定它能不能真正落地。</text></view>
+      </view>
+      <view class="method-card">
+        <text class="method-no">03</text>
+        <view class="method-copy"><text class="method-title">最后看场景</text><text class="method-description">用成衣参考确认廓形，让选料直接连接到上新。</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="brand-section visual-section">
+    <view class="section-heading-row"><view><text class="section-eyebrow">MATERIAL IN MOTION</text><text class="section-title-small">面料，进入衣服之后</text></view></view>
+    <view class="visual-grid">
+      <view class="visual-card visual-card-tall"><image src="/assets/brand/brand-look-ivory.jpg" mode="aspectFill"></image><view class="visual-overlay"><text>GARMENT / IVORY</text><text>柔和的结构感</text></view></view>
+      <view class="visual-card"><image src="/assets/brand/brand-look-olive.jpg" mode="aspectFill"></image><view class="visual-overlay"><text>GARMENT / OLIVE</text><text>轻盈的垂坠感</text></view></view>
+      <view class="visual-card visual-card-texture"><image src="/assets/brand/brand-swatches-light.jpg" mode="aspectFill"></image><view class="texture-label"><text>FABRIC → GARMENT</text><text>从一块布，到一件衣服</text></view></view>
+    </view>
+  </view>
+
+  <view class="brand-section contact-section">
+    <text class="section-eyebrow">START WITH A SWATCH</text>
+    <text class="contact-title">从下一款面料开始。</text>
+    <text class="contact-copy">进入面料档案，按分类寻找合适的梭织材料；遇到合适的款式，可以直接加入样卡申请。</text>
+    <view class="contact-actions"><button class="contact-primary" bindtap="goCatalog">看面料档案 <text>↗</text></button><button class="contact-secondary" bindtap="goSamples">申请样卡</button></view>
+    <view class="company-signature"><text>广州市衡弈纺织品有限公司</text><text>HENGYI TEXTILE CO., LTD.</text></view>
+  </view>
+</view>
+
+<view class="bottom-nav">
+  <button class="nav-item" data-page="home" bindtap="onNav"><view class="nav-dot"></view><text>首页</text></button>
+  <button class="nav-item" data-page="catalog" bindtap="onNav"><view class="nav-dot"></view><text>分类</text></button>
+  <button class="nav-item active" data-page="brand" bindtap="onNav"><view class="nav-dot"></view><text>品牌</text></button>
+  <button class="nav-item" data-page="samples" bindtap="onNav"><view class="nav-dot"></view><text>申请单</text></button>
+  <button class="nav-item" data-page="profile" bindtap="onNav"><view class="nav-dot"></view><text>我的</text></button>
+</view>

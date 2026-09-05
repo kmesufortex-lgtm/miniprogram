@@ -1,0 +1,46 @@
+<view class="address-page">
+  <view class="address-header">
+    <button class="back-button" bindtap="goBack" aria-label="返回">
+      <view class="back-icon"><view class="back-chevron"></view><view class="back-line"></view></view>
+    </button>
+    <view class="header-copy">
+      <text class="eyebrow">DELIVERY ADDRESS</text>
+      <text class="page-title">收货地址管理</text>
+    </view>
+  </view>
+
+  <view wx:if="{{addresses.length}}" class="address-guide">
+    <view class="guide-mark"></view>
+    <text>标记为默认的地址，将在提交样卡申请时优先使用。</text>
+  </view>
+
+  <view wx:if="{{addresses.length}}" class="address-list">
+    <view class="address-card {{item.isDefault ? 'is-default' : ''}}" wx:for="{{addresses}}" wx:key="id">
+      <view class="card-top">
+        <view class="contact-line">
+          <text class="contact-name">{{item.name}}</text>
+          <text class="contact-phone">{{item.phone}}</text>
+        </view>
+        <text wx:if="{{item.isDefault}}" class="default-badge">默认地址</text>
+      </view>
+      <text class="full-address">{{item.fullAddress}}</text>
+      <view class="card-footer">
+        <view wx:if="{{item.isDefault}}" class="default-note">
+          <view class="default-dot"></view>
+          <text>样卡寄送优先使用</text>
+        </view>
+        <button wx:else class="set-default" data-id="{{item.id}}" bindtap="makeDefault">设为默认</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="empty-address">
+    <view class="empty-symbol">⌂</view>
+    <text class="empty-title">还没有收货地址</text>
+    <text class="empty-copy">添加后可在申请样卡时快速选择。</text>
+  </view>
+
+  <view class="address-bottom">
+    <button class="add-address" bindtap="addAddress">＋ 添加收货地址</button>
+  </view>
+</view>
