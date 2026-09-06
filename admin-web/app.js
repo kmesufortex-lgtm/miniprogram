@@ -200,6 +200,7 @@ let caseEditorDraft = null;
 let requestDetailId = null;
 let customerDetailId = null;
 let pendingProductImportToken = new URLSearchParams(window.location.search).get("newProductImport") || "";
+let bootInFlight = null;
 
 const viewMeta = {
   dashboard: ["工作台", "今天先处理这些"],
@@ -2133,12 +2134,24 @@ $("#closeHome").addEventListener("click", () => $("#homeDialog").close());
 $("#cancelHome").addEventListener("click", () => $("#homeDialog").close());
 
 async function bootAdmin() {
+  if (bootInFlight) return bootInFlight;
+  bootInFlight = bootAdminOnce();
+  try {
+    return await bootInFlight;
+  } finally {
+    bootInFlight = null;
+  }
+}
+
+async function bootAdminOnce() {
   const loginScreen = $("#loginScreen");
   const adminShell = $("#adminShell");
   try {
     await apiRequest("/auth/me");
     loginScreen.hidden = true;
-    adminShell.hidden = false;
+    // Keep the shell hidden while startup data is loading. Showing the shell
+    // first and replacing it with the final view looks like repeated refreshes.
+    adminShell.hidden = true;
   } catch {
     loginScreen.hidden = false;
     adminShell.hidden = true;
@@ -2155,7 +2168,11 @@ async function bootAdmin() {
     loadOperationalData(false)
   ])
     .then(() => consumePendingProductImport())
-    .then(() => { updateCounts(); renderView(); });
+    .then(() => {
+      updateCounts();
+      renderView();
+      adminShell.hidden = false;
+    });
 }
 
 $("#loginForm").addEventListener("submit", async event => {
