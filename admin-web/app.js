@@ -2147,12 +2147,14 @@ async function bootAdmin() {
   if (needsTagLibraryCleanup) persist();
   else updateCounts();
   $("#appView").innerHTML = '<div class="view-loading" role="status">正在加载后台数据…</div>';
-  loadCategories(false)
-    .then(() => loadCloudProducts(false))
-    .then(consumePendingProductImport)
-    .then(() => loadCases(false))
-    .then(() => loadHomepage(false))
-    .then(() => loadOperationalData(false))
+  Promise.allSettled([
+    loadCategories(false),
+    loadCloudProducts(false),
+    loadCases(false),
+    loadHomepage(false),
+    loadOperationalData(false)
+  ])
+    .then(() => consumePendingProductImport())
     .then(() => { updateCounts(); renderView(); });
 }
 
