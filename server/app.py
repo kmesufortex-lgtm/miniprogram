@@ -37,7 +37,8 @@ app.config.update(
     # Local development runs on http://127.0.0.1; production sets this to 1
     # through the systemd environment so session cookies remain HTTPS-only.
     SESSION_COOKIE_SECURE=os.environ.get("HENGYITEX_COOKIE_SECURE", "0") != "0",
-    PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
+    # 后台登录会话保留 7 天，减少运营人员重复登录；退出登录后立即失效。
+    PERMANENT_SESSION_LIFETIME=timedelta(days=7),
 )
 ADMIN_USERNAME = os.environ.get("HENGYITEX_ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD_HASH = os.environ.get("HENGYITEX_ADMIN_PASSWORD_HASH", "")

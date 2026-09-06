@@ -245,14 +245,14 @@ function normalizeCloudProduct(product) {
   };
 }
 
-async function loadCategories() {
+async function loadCategories(shouldRender = true) {
   try {
     await initCloud();
     const result = await apiRequest("/categories");
     if (Array.isArray(result.data) && result.data.length) {
       state.categories = result.data;
       persist();
-      renderView();
+      if (shouldRender) renderView();
     }
   } catch (error) {
     console.warn("Categories unavailable:", error);
@@ -293,7 +293,7 @@ async function initCloud() {
   return apiReadyPromise;
 }
 
-async function loadCloudProducts() {
+async function loadCloudProducts(shouldRender = true) {
   try {
     await initCloud();
     const result = await apiRequest("/products");
@@ -302,13 +302,13 @@ async function loadCloudProducts() {
     const cloudIds = new Set(cloudProducts.map(product => product.id));
     state.products = [...cloudProducts, ...state.products.filter(product => !cloudIds.has(product.id))];
     persist();
-    renderView();
+    if (shouldRender) renderView();
   } catch (error) {
     console.warn("Cloud products unavailable:", error);
   }
 }
 
-async function loadHomepage() {
+async function loadHomepage(shouldRender = true) {
   try {
     await initCloud();
     const result = await apiRequest("/homepage");
@@ -319,7 +319,7 @@ async function loadHomepage() {
         cases: (result.data.cases || []).map(item => ({ ...item, image: toAdminAssetPath(item.image), images: (item.images || [item.image]).filter(Boolean).map(toAdminAssetPath) }))
       };
       persist();
-      if (currentView === "homepage") renderView();
+      if (shouldRender && currentView === "homepage") renderView();
     }
   } catch (error) {
     console.warn("Homepage configuration unavailable:", error);
@@ -327,7 +327,7 @@ async function loadHomepage() {
 }
 
 const requestStatusFromApi = { pending: "待确认", confirmed: "待寄送", preparing: "待寄送", shipped: "已发货", completed: "已完成", cancelled: "已取消" };
-async function loadOperationalData() {
+async function loadOperationalData(shouldRender = true) {
   try {
     await initCloud();
     const [requestResult, customerResult] = await Promise.all([apiRequest("/requests"), apiRequest("/customers")]);
@@ -344,7 +344,7 @@ async function loadOperationalData() {
     }));
     state.customers = customerResult.data || [];
     persist();
-    renderView();
+    if (shouldRender) renderView();
     updateCounts();
   } catch (error) {
     console.warn("Operational data unavailable:", error);
@@ -356,14 +356,14 @@ function normalizeCase(item) {
   return { ...item, productId: item.productId || item.product || "", product: item.productId || item.product || "", images, image: images[0] || "" };
 }
 
-async function loadCases() {
+async function loadCases(shouldRender = true) {
   try {
     await initCloud();
     const result = await apiRequest("/cases");
     if (Array.isArray(result.data) && result.data.length) {
       state.cases = result.data.map(normalizeCase);
       persist();
-      if (currentView === "cases" || currentView === "homepage") renderView();
+      if (shouldRender && (currentView === "cases" || currentView === "homepage")) renderView();
     }
   } catch (error) {
     console.warn("Cases unavailable:", error);
@@ -2147,12 +2147,13 @@ async function bootAdmin() {
   if (needsTagLibraryCleanup) persist();
   else updateCounts();
   renderView();
-  loadCategories()
-    .then(loadCloudProducts)
+  loadCategories(false)
+    .then(() => loadCloudProducts(false))
     .then(consumePendingProductImport)
-    .then(loadCases)
-    .then(loadHomepage)
-    .then(loadOperationalData);
+    .then(() => loadCases(false))
+    .then(() => loadHomepage(false))
+    .then(() => loadOperationalData(false))
+    .then(() => { updateCounts(); renderView(); });
 }
 
 $("#loginForm").addEventListener("submit", async event => {
