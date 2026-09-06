@@ -1366,6 +1366,7 @@ function renderMediaGroup(type) {
     </figure>`;
   }).join("");
   const canAdd = images.length < meta.max;
+  $(meta.container).dataset.mediaDropType = type;
   $(meta.container).innerHTML = `${cards}${canAdd ? `<button class="upload-button" type="button" data-add-media="${type}"><span>＋</span><strong>添加${meta.label}</strong><small>JPG / PNG / WebP · 自动压缩</small></button>` : ""}`;
   $("#galleryCount").textContent = `${editorImages.gallery.length} / 6`;
   $("#detailCount").textContent = `${editorImages.detailImages.length} 张`;
@@ -1820,23 +1821,39 @@ document.addEventListener("dragstart", event => {
   const card = event.target.closest(".media-card");
   if (!card) return;
   draggedMedia = { type: card.dataset.mediaType, index: Number(card.dataset.mediaIndex) };
+  event.dataTransfer.effectAllowed = "move";
   card.classList.add("is-dragging");
 });
-document.addEventListener("dragover", event => { if (event.target.closest(".media-card")) event.preventDefault(); });
-document.addEventListener("drop", event => {
-  const target = event.target.closest(".media-card");
-  if (!target || !draggedMedia || target.dataset.mediaType !== draggedMedia.type) return;
+document.addEventListener("dragover", event => {
+  const strip = event.target.closest(".upload-strip");
+  if (!strip || !draggedMedia) return;
+  const targetType = strip.dataset.mediaDropType;
+  if (!targetType || (targetType === "gallery" && draggedMedia.type !== "gallery" && editorImages.gallery.length >= 6)) return;
   event.preventDefault();
-  const type = draggedMedia.type;
-  const targetIndex = Number(target.dataset.mediaIndex);
-  const [moved] = editorImages[type].splice(draggedMedia.index, 1);
-  editorImages[type].splice(targetIndex, 0, moved);
+  event.dataTransfer.dropEffect = "move";
+  strip.classList.add("is-drop-target");
+});
+document.addEventListener("drop", event => {
+  const strip = event.target.closest(".upload-strip");
+  if (!strip || !draggedMedia) return;
+  const targetType = strip.dataset.mediaDropType;
+  if (!targetType || (targetType === "gallery" && draggedMedia.type !== "gallery" && editorImages.gallery.length >= 6)) return;
+  event.preventDefault();
+  const target = event.target.closest(".media-card");
+  const sourceType = draggedMedia.type;
+  const sourceIndex = draggedMedia.index;
+  const [moved] = editorImages[sourceType].splice(sourceIndex, 1);
+  let targetIndex = target ? Number(target.dataset.mediaIndex) : editorImages[targetType].length;
+  if (sourceType === targetType && sourceIndex < targetIndex) targetIndex -= 1;
+  editorImages[targetType].splice(Math.max(0, targetIndex), 0, moved);
   draggedMedia = null;
+  $$(".upload-strip.is-drop-target").forEach(item => item.classList.remove("is-drop-target"));
   renderAllMedia(); updateProductPreview();
 });
 document.addEventListener("dragend", () => {
   draggedMedia = null;
   $$(".media-card.is-dragging").forEach(card => card.classList.remove("is-dragging"));
+  $$(".upload-strip.is-drop-target").forEach(strip => strip.classList.remove("is-drop-target"));
 });
 
 document.addEventListener("input", event => {

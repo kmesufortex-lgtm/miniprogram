@@ -480,6 +480,7 @@ input.invalid, textarea.invalid, select.invalid { border-color: var(--danger); b
 .media-order button:disabled { opacity: .32; cursor: default; }
 .media-grip { padding: 3px 6px; border-radius: 5px; color: #fff; background: rgba(23,35,56,.72); font: 9px ui-monospace, monospace; }
 .media-card.is-dragging { opacity: .42; transform: scale(.96); }
+.upload-strip.is-drop-target { outline: 2px dashed var(--orange); outline-offset: 6px; background: rgba(104,161,123,.1); }
 .media-card.is-stale { background: #f6ece6; }
 .media-stale { position: absolute; inset: 0 0 27px; padding: 10px; color: #9b4626; display: grid; place-content: center; text-align: center; }
 .media-stale strong, .media-stale span { display: block; }
