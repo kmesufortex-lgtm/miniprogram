@@ -677,9 +677,6 @@ function setView(view) {
 
 function renderView() {
   const view = $("#appView");
-  view.style.animation = "none";
-  void view.offsetWidth;
-  view.style.animation = "";
   const renderers = { dashboard: renderDashboard, products: renderProducts, series: renderSeries, cases: renderCases, requests: renderRequests, customers: renderCustomers, homepage: renderHomepage };
   view.innerHTML = renderers[currentView]();
 }
