@@ -2146,7 +2146,7 @@ async function bootAdmin() {
   }
   if (needsTagLibraryCleanup) persist();
   else updateCounts();
-  renderView();
+  $("#appView").innerHTML = '<div class="view-loading" role="status">正在加载后台数据…</div>';
   loadCategories(false)
     .then(() => loadCloudProducts(false))
     .then(consumePendingProductImport)
