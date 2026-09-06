@@ -8,7 +8,7 @@ const products = {
     categoryIds: [
       "composition-tr", "composition-wool", "composition-polyester", "composition-blend",
       "usage-suit", "usage-trousers", "handfeel-drape", "handfeel-crisp",
-      "feature-wrinkle", "season-all"
+      "feature-wrinkle", "season-spring", "season-summer", "season-autumn", "season-winter"
     ],
     composition: "62% POLYESTER · 26% RAYON · 9% WOOL · 3% SP",
     weight: "240GSM",
@@ -42,7 +42,7 @@ const products = {
     quoteLabel: "咨询报价",
     categoryIds: [
       "composition-polyester", "composition-blend", "usage-jacket", "usage-trousers",
-      "handfeel-crisp", "feature-stretch", "feature-waterproof", "season-spring-autumn"
+      "handfeel-crisp", "feature-stretch", "feature-waterproof", "season-spring", "season-autumn"
     ],
     composition: "94% POLYESTER · 6% SP",
     weight: "210GSM",

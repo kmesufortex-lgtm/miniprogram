@@ -47,6 +47,18 @@ WECHAT_APPSECRET = os.environ.get("HENGYITEX_WECHAT_APPSECRET", "")
 MEDIA_WAREHOUSE_TOKEN = os.environ.get("HENGYITEX_MEDIA_WAREHOUSE_TOKEN", "")
 PUBLIC_ORIGIN = os.environ.get("HENGYITEX_PUBLIC_ORIGIN", "https://hengyitex.top").rstrip("/")
 PRODUCT_IMPORT_TTL = timedelta(minutes=30)
+SEASON_TAGS = [
+    {"id": "season-spring", "name": "春"},
+    {"id": "season-summer", "name": "夏"},
+    {"id": "season-autumn", "name": "秋"},
+    {"id": "season-winter", "name": "冬"},
+]
+LEGACY_SEASON_TAGS = {
+    "season-spring-summer": ["season-spring", "season-summer"],
+    "season-spring-autumn": ["season-spring", "season-autumn"],
+    "season-autumn-winter": ["season-autumn", "season-winter"],
+    "season-all": ["season-spring", "season-summer", "season-autumn", "season-winter"],
+}
 
 
 def admin_password_matches(password):
@@ -181,6 +193,47 @@ def utc_now():
     return datetime.now(timezone.utc).isoformat()
 
 
+def migrate_legacy_season_categories(db):
+    """Convert the former combined season tags to independently selectable seasons."""
+    category_row = db.execute("SELECT payload FROM settings WHERE key = 'categories'").fetchone()
+    if category_row:
+        categories = json.loads(category_row["payload"])
+        changed = False
+        for group in categories:
+            if group.get("id") != "season":
+                continue
+            if group.get("selectionMode") != "multiple" or group.get("tags") != SEASON_TAGS:
+                group["selectionMode"] = "multiple"
+                group["tags"] = SEASON_TAGS
+                changed = True
+            break
+        if changed:
+            db.execute(
+                "UPDATE settings SET payload = ?, updated_at = ? WHERE key = 'categories'",
+                (json.dumps(categories, ensure_ascii=False), utc_now()),
+            )
+
+    for row in db.execute("SELECT id, payload FROM products").fetchall():
+        product = json.loads(row["payload"])
+        category_ids = product.get("categoryIds") or []
+        migrated_ids = []
+        changed = False
+        for category_id in category_ids:
+            replacements = LEGACY_SEASON_TAGS.get(category_id)
+            if replacements:
+                changed = True
+                migrated_ids.extend(replacements)
+            else:
+                migrated_ids.append(category_id)
+        deduplicated_ids = list(dict.fromkeys(migrated_ids))
+        if changed or deduplicated_ids != category_ids:
+            product["categoryIds"] = deduplicated_ids
+            db.execute(
+                "UPDATE products SET payload = ?, updated_at = ? WHERE id = ?",
+                (json.dumps(product, ensure_ascii=False), utc_now(), row["id"]),
+            )
+
+
 def init_db():
     with get_db() as db:
         db.execute(
@@ -252,6 +305,7 @@ def init_db():
                 "INSERT INTO settings (key, payload, updated_at) VALUES ('categories', ?, ?)",
                 (CATEGORY_SEED_PATH.read_text(encoding="utf-8"), utc_now()),
             )
+        migrate_legacy_season_categories(db)
         count = db.execute("SELECT COUNT(*) AS total FROM products").fetchone()["total"]
         if count == 0 and SEED_PATH.exists():
             for product in json.loads(SEED_PATH.read_text(encoding="utf-8")):

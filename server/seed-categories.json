@@ -14,8 +14,8 @@
   {"id":"feature","name":"按特性","selectionMode":"multiple","tags":[
     {"id":"feature-wrinkle","name":"抗皱"},{"id":"feature-stretch","name":"弹力"},{"id":"feature-fourway","name":"四面弹"},{"id":"feature-microstretch","name":"微弹"},{"id":"feature-cooling","name":"凉感"},{"id":"feature-breathable","name":"透气"},{"id":"feature-wicking","name":"吸湿排汗"},{"id":"feature-sunproof","name":"防晒"},{"id":"feature-waterproof","name":"防水"},{"id":"feature-opaque","name":"不透"},{"id":"feature-lustrous","name":"有光泽"},{"id":"feature-matte","name":"哑光"},{"id":"feature-textured","name":"肌理感"}
   ]},
-  {"id":"season","name":"按季节","selectionMode":"single","tags":[
-    {"id":"season-spring-summer","name":"春夏"},{"id":"season-spring-autumn","name":"春秋"},{"id":"season-autumn-winter","name":"秋冬"},{"id":"season-all","name":"四季"}
+  {"id":"season","name":"按季节","selectionMode":"multiple","tags":[
+    {"id":"season-spring","name":"春"},{"id":"season-summer","name":"夏"},{"id":"season-autumn","name":"秋"},{"id":"season-winter","name":"冬"}
   ]},
   {"id":"trend","name":"热门趋势","selectionMode":"multiple","tags":[
     {"id":"trend-oldmoney","name":"老钱风"},{"id":"trend-quietluxury","name":"静奢风"},{"id":"trend-hanfu","name":"国风汉服"},{"id":"trend-newchinese","name":"新中式"}

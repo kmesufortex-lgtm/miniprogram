@@ -1,7 +1,19 @@
 const ASSET_ROOT = "../miniprogram/assets/fabrics/FA227";
 const STORAGE_KEY = "hengyi-admin-prototype-v1";
 const API_BASE = "/api";
-const TAG_LIBRARY_VERSION = 2;
+const TAG_LIBRARY_VERSION = 3;
+const SEASON_TAGS = [
+  { id: "season-spring", name: "春" },
+  { id: "season-summer", name: "夏" },
+  { id: "season-autumn", name: "秋" },
+  { id: "season-winter", name: "冬" }
+];
+const LEGACY_SEASON_TAGS = {
+  "season-spring-summer": ["season-spring", "season-summer"],
+  "season-spring-autumn": ["season-spring", "season-autumn"],
+  "season-autumn-winter": ["season-autumn", "season-winter"],
+  "season-all": ["season-spring", "season-summer", "season-autumn", "season-winter"]
+};
 const DEFAULT_FEATURE_TAGS = ["原麻风", "天丝亚麻", "天丝羊毛"];
 const DEFAULT_CATEGORIES = [
   { id: "composition", name: "按成分", selectionMode: "multiple", tags: [["acetate", "醋酸"], ["tencel", "天丝"], ["cotton", "棉"], ["rayon-cotton", "人棉"], ["rayon-silk", "人丝"], ["linen", "亚麻"], ["cotton-linen", "棉麻"], ["silk", "桑蚕丝"], ["wool", "羊毛"], ["nylon", "锦纶"], ["polyester", "涤纶"], ["tr", "TR"], ["cvc", "CVC"], ["tencel-cotton", "天丝棉"], ["blend", "混纺"], ["other", "其他"]] },
@@ -9,7 +21,7 @@ const DEFAULT_CATEGORIES = [
   { id: "handfeel", name: "按手感", selectionMode: "multiple", tags: [["drape", "垂感"], ["soft", "柔软"], ["flowy", "飘逸"], ["crisp", "挺括"], ["smooth", "顺滑"], ["skin", "亲肤"], ["light", "轻盈"], ["thick", "厚实"], ["fluffy", "蓬松"], ["fine", "细腻"], ["waxy", "糯感"], ["bodied", "有筋骨"]] },
   { id: "craft", name: "按工艺", selectionMode: "multiple", tags: [["jacquard", "提花"], ["print", "印花"], ["yarn-dyed", "色织"], ["embroidery", "刺绣"], ["crinkle", "压皱"], ["sandwash", "砂洗"], ["brushed", "磨毛"], ["raised", "起绒"], ["foil", "烫金"], ["texture", "肌理组织"]] },
   { id: "feature", name: "按特性", selectionMode: "multiple", tags: [["wrinkle", "抗皱"], ["stretch", "弹力"], ["fourway", "四面弹"], ["microstretch", "微弹"], ["cooling", "凉感"], ["breathable", "透气"], ["wicking", "吸湿排汗"], ["sunproof", "防晒"], ["waterproof", "防水"], ["opaque", "不透"], ["lustrous", "有光泽"], ["matte", "哑光"], ["textured", "肌理感"]] },
-  { id: "season", name: "按季节", selectionMode: "single", tags: [["spring-summer", "春夏"], ["spring-autumn", "春秋"], ["autumn-winter", "秋冬"], ["all", "四季"]] },
+  { id: "season", name: "按季节", selectionMode: "multiple", tags: [["spring", "春"], ["summer", "夏"], ["autumn", "秋"], ["winter", "冬"]] },
   { id: "trend", name: "热门趋势", selectionMode: "multiple", tags: [["oldmoney", "老钱风"], ["quietluxury", "静奢风"], ["hanfu", "国风汉服"], ["newchinese", "新中式"]] }
 ].map(group => ({ ...group, tags: group.tags.map(([suffix, name]) => ({ id: `${group.id}-${suffix}`, name })) }));
 
@@ -121,6 +133,9 @@ try {
 }
 
 state.categories = Array.isArray(state.categories) && state.categories.length ? state.categories : structuredClone(DEFAULT_CATEGORIES);
+state.categories = state.categories.map(group => group.id === "season"
+  ? { ...group, selectionMode: "multiple", tags: structuredClone(SEASON_TAGS) }
+  : group);
 const needsTagLibraryCleanup = storedState?.tagLibraryVersion !== TAG_LIBRARY_VERSION;
 state.tagLibraryVersion = TAG_LIBRARY_VERSION;
 state.tagLibrary = needsTagLibraryCleanup
@@ -129,11 +144,12 @@ state.tagLibrary = needsTagLibraryCleanup
 state.products = state.products.map(product => {
   const legacyTags = (product.featureTags || product.tags || []).filter(tag => !/^\d+\s*色/.test(tag));
   const gallery = product.gallery?.length ? product.gallery : [product.image || `${ASSET_ROOT}/swatch.jpg`];
+  const seasonCategoryIds = (product.categoryIds || []).flatMap(id => LEGACY_SEASON_TAGS[id] || [id]);
   return {
     ...product,
     series: "",
     seriesEn: undefined,
-    categoryIds: product.categoryIds || [],
+    categoryIds: [...new Set(seasonCategoryIds)],
     featureTags: needsTagLibraryCleanup ? legacyTags.filter(tag => DEFAULT_FEATURE_TAGS.includes(tag)) : legacyTags,
     gallery,
     detailImages: product.detailImages || [],
