@@ -455,7 +455,7 @@ def create_media_warehouse_import():
     import_payload = {
         "code": code,
         "name": name,
-        "description": str(product.get("description") or "").strip()[:250],
+        "description": str(product.get("description") or "").strip(),
         "quoteLabel": "咨询报价",
         "composition": str(product.get("composition") or "").strip()[:1000],
         "weight": str(product.get("weight") or "").strip()[:120],

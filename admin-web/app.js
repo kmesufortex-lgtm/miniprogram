@@ -1498,7 +1498,7 @@ function updateProductPreview() {
   $("#previewDetailsSection").hidden = values.detailImages.length === 0;
   $("#previewColorCardImages").innerHTML = values.colorCardImages.map(src => `<img src="${escapeHtml(src)}" alt="电子色卡图">`).join("");
   $("#previewColorCardsSection").hidden = values.colorCardImages.length === 0;
-  $("#descriptionCount").textContent = `${values.description.length} / 250`;
+  $("#descriptionCount").textContent = `${values.description.length} 字`;
   const required = [values.code, values.name, values.description, values.composition, values.weight, values.width, values.colorCount];
   const score = Math.min(100, Math.round((required.filter(Boolean).length / required.length) * 80 + (values.featureTags.length ? 5 : 0) + (values.uses.length ? 5 : 0) + (values.gallery.length >= 4 ? 10 : 0)));
   $("#completionValue").textContent = `${score}%`;
