@@ -30,7 +30,7 @@ class ProductImportTests(unittest.TestCase):
     def setUp(self):
         self.client = app.test_client()
 
-    def create_import(self, uses=None):
+    def create_import(self, uses=None, category_ids=None):
         metadata = {
             "product": {
                 "code": "FA309",
@@ -47,6 +47,8 @@ class ProductImportTests(unittest.TestCase):
         }
         if uses is not None:
             metadata["product"]["uses"] = uses
+        if category_ids is not None:
+            metadata["product"]["categoryIds"] = category_ids
         return self.client.post(
             "/api/integrations/media-warehouse/imports",
             headers={"Authorization": "Bearer integration-test-token"},
@@ -94,6 +96,21 @@ class ProductImportTests(unittest.TestCase):
         self.assertEqual(payload["gallery"], payload["detailImages"])
         self.assertEqual(len(payload["colorCardImages"]), 1)
         self.assertEqual(self.client.get(f"/api/product-imports/{token}").status_code, 410)
+
+    def test_category_ids_are_preserved_and_invalid_ids_rejected(self):
+        with app.app_context():
+            from app import get_db, utc_now
+            with get_db() as db:
+                db.execute("INSERT OR REPLACE INTO settings (key, payload, updated_at) VALUES ('categories', ?, ?)", (json.dumps([{"id": "usage", "name": "按用途", "tags": [{"id": "usage-shirt", "name": "衬衫"}]}], ensure_ascii=False), utc_now()))
+                db.commit()
+        created = self.create_import(category_ids=["usage-shirt"])
+        self.assertEqual(created.status_code, 201)
+        token = created.get_json()["data"]["adminUrl"].split("newProductImport=", 1)[1]
+        with self.client.session_transaction() as session_data:
+            session_data["admin_authenticated"] = True
+        payload = self.client.get(f"/api/product-imports/{token}").get_json()["data"]
+        self.assertEqual(payload["categoryIds"], ["usage-shirt"])
+        self.assertEqual(self.create_import(category_ids=["missing-category"]).status_code, 409)
 
 
 if __name__ == "__main__":

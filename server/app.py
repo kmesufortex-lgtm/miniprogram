@@ -431,6 +431,22 @@ def create_media_warehouse_import():
             return jsonify({"error": "推荐用途需填写标题和描述，标题最多40字、描述最多200字"}), 400
         normalized_uses.append({"title": title, "description": description})
 
+    category_ids = product.get("categoryIds", [])
+    if not isinstance(category_ids, list) or any(not isinstance(item, str) for item in category_ids):
+        return jsonify({"error": "产品分类 ID 格式不正确"}), 400
+    category_ids = list(dict.fromkeys(item.strip() for item in category_ids if item.strip()))
+    with get_db() as db:
+        category_row = db.execute("SELECT payload FROM settings WHERE key = 'categories'").fetchone()
+    categories = json.loads(category_row["payload"]) if category_row else []
+    valid_category_ids = {
+        str(tag.get("id") or "").strip()
+        for category in categories
+        for tag in (category.get("tags") or [])
+        if str(tag.get("id") or "").strip()
+    }
+    if any(category_id not in valid_category_ids for category_id in category_ids):
+        return jsonify({"error": "产品包含已失效的小程序分类，请刷新后重新选择"}), 409
+
     stored_urls = []
     target_dir = UPLOAD_DIR / (secure_filename(code) or "imported") / "imports"
     target_dir.mkdir(parents=True, exist_ok=True)
@@ -464,7 +480,7 @@ def create_media_warehouse_import():
         "detailImages": image_groups["detailImages"],
         "colorCardImages": image_groups["colorCardImages"],
         "featureTags": [],
-        "categoryIds": [],
+        "categoryIds": category_ids,
         "uses": normalized_uses or [{"title": "", "description": ""}],
         "customSpecs": [],
     }
