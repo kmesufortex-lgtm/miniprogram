@@ -811,7 +811,7 @@ function openCaseEditor(caseId = "") {
 
 function renderCaseEditor() {
   const liveProducts = state.products.filter(item => item.status === "live");
-  return `<div class="case-editor-backdrop" data-close-case-editor><form id="caseEditorForm" class="case-editor" aria-label="编辑成衣案例">
+  return `<div class="case-editor-backdrop"><form id="caseEditorForm" class="case-editor" role="dialog" aria-modal="true" tabindex="-1" aria-label="编辑成衣案例">
     <header><div><p class="eyebrow">GARMENT CASE</p><h2>${state.cases.some(item => item.id === caseEditorDraft.id) ? "编辑案例" : "新增案例"}</h2><span>使用两张图片和关联面料信息组成案例卡片。</span></div><div><button class="button button-ghost" type="button" data-close-case-editor>取消</button><button class="button button-primary" type="submit">保存案例</button></div></header>
     <div class="case-editor-layout">
       <div class="case-editor-fields">
@@ -1631,12 +1631,16 @@ function commitInlineTags() {
 }
 
 document.addEventListener("click", event => {
-  if (!$("#tagDrawer").hidden && !event.target.closest("#tagDrawer") && !event.target.closest("#tagInputShell")) {
-    closeTagSelector(true);
-  }
-  if (!$("#categoryDrawer").hidden && !event.target.closest("#categoryDrawer") && !event.target.closest("#categoryInputShell")) {
-    closeCategorySelector(true);
-  }
+  const target = event.target;
+  // Custom overlays are intentionally modal: clicks outside their panel must
+  // not trigger the page behind them or discard an in-progress edit.
+  if (caseEditorDraft && !target.closest(".case-editor")) return;
+  if (requestDetailId && !target.closest(".request-detail-panel")) return;
+  if (customerDetailId && !target.closest(".customer-detail-panel")) return;
+  if (homePickerType && !target.closest(".home-picker")) return;
+  if (!$("#tagDrawer").hidden && !target.closest("#tagDrawer") && !target.closest("#tagInputShell")) return;
+  if (!$("#categoryDrawer").hidden && !target.closest("#categoryDrawer") && !target.closest("#categoryInputShell")) return;
+
   const nav = event.target.closest("[data-view]");
   if (nav) return setView(nav.dataset.view);
   const go = event.target.closest("[data-go]");
@@ -1652,7 +1656,7 @@ document.addEventListener("click", event => {
   const editCase = event.target.closest("[data-edit-case]");
   if (editCase) return openCaseEditor(editCase.dataset.editCase);
   const closeCaseEditor = event.target.closest("[data-close-case-editor]");
-  if (closeCaseEditor && (closeCaseEditor.tagName === "BUTTON" || event.target === closeCaseEditor)) { caseEditorDraft = null; renderView(); return; }
+  if (closeCaseEditor && closeCaseEditor.tagName === "BUTTON") { caseEditorDraft = null; renderView(); return; }
   if (event.target.closest("[data-add-case-images]")) { $("#caseImageInput")?.click(); return; }
   const removeCaseImage = event.target.closest("[data-remove-case-image]");
   if (removeCaseImage && caseEditorDraft) { caseEditorDraft.images.splice(Number(removeCaseImage.dataset.removeCaseImage), 1); renderView(); return; }
@@ -1682,7 +1686,7 @@ document.addEventListener("click", event => {
     renderView();
     return;
   }
-  if (event.target.matches("[data-request-detail-backdrop]") || event.target.closest("[data-close-request-detail]")) {
+  if (event.target.closest("[data-close-request-detail]")) {
     requestDetailId = null;
     renderView();
     return;
@@ -1704,7 +1708,7 @@ document.addEventListener("click", event => {
     return;
   }
   const closeHomePicker = event.target.closest("[data-close-home-picker]");
-  if (closeHomePicker && (closeHomePicker.tagName === "BUTTON" || event.target === closeHomePicker)) {
+  if (closeHomePicker && closeHomePicker.tagName === "BUTTON") {
     homePickerType = null;
     renderView();
     return;
@@ -1798,7 +1802,7 @@ document.addEventListener("click", event => {
     renderAllMedia(); updateProductPreview(); return;
   }
   if (event.target.closest("[data-new-customer]")) return createCustomerFromAdmin();
-  if (event.target.matches("[data-customer-detail-backdrop]") || event.target.closest("[data-close-customer-detail]")) {
+  if (event.target.closest("[data-close-customer-detail]")) {
     customerDetailId = null;
     renderView();
     return;

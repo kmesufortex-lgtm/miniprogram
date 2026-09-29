@@ -20,6 +20,14 @@ Page({
     favorite: false
   },
 
+  onShow() {
+    if (typeof wx.showShareMenu !== "function") return;
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ["shareAppMessage", "shareTimeline"]
+    });
+  },
+
   async onLoad(options) {
     const productId = options.id || "FA227";
 
@@ -119,6 +127,15 @@ Page({
     return {
       title: product ? `${product.name} · ${product.code}` : "产品详情",
       path: product ? `/pages/detail/index?id=${product.id}` : "/pages/catalog/index",
+      imageUrl: product ? product.sampleImage || product.gallery[0] || "" : ""
+    };
+  },
+
+  onShareTimeline() {
+    const product = this.data.product;
+    return {
+      title: product ? `${product.name} · ${product.code}` : "产品详情",
+      query: product ? `id=${product.id}` : "",
       imageUrl: product ? product.sampleImage || product.gallery[0] || "" : ""
     };
   }

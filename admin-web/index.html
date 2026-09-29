@@ -77,7 +77,7 @@
       </main>
     </div>
 
-    <dialog id="productDialog" class="editor-dialog">
+    <dialog id="productDialog" class="editor-dialog" closedby="closerequest">
       <form id="productForm" method="dialog" novalidate>
         <header class="editor-head">
           <div>
@@ -208,7 +208,7 @@
       </form>
     </dialog>
 
-    <dialog id="homeDialog" class="compact-dialog">
+    <dialog id="homeDialog" class="compact-dialog" closedby="closerequest">
       <form id="homeForm" method="dialog">
         <header><div><p class="eyebrow">HOMEPAGE FEATURE</p><h2>编辑首页主推</h2></div><button id="closeHome" type="button" aria-label="关闭">×</button></header>
         <label><span>主推面料</span><select name="featuredProduct" id="featuredProductSelect"></select></label>
@@ -219,7 +219,7 @@
       </form>
     </dialog>
 
-    <dialog id="categoryManageDialog" class="compact-dialog">
+    <dialog id="categoryManageDialog" class="compact-dialog" closedby="closerequest">
       <form id="categoryManageForm" method="dialog">
         <header><div><p class="eyebrow">CATEGORY LIBRARY</p><h2 id="categoryManageTitle">新增分类</h2></div><button id="closeCategoryManage" type="button" aria-label="关闭">×</button></header>
         <input type="hidden" name="mode" value="group" />
@@ -232,7 +232,7 @@
       </form>
     </dialog>
 
-    <dialog id="categoryWarningDialog" class="compact-dialog warning-dialog">
+    <dialog id="categoryWarningDialog" class="compact-dialog warning-dialog" closedby="closerequest">
       <form method="dialog">
         <header><div><p class="eyebrow">CLASSIFICATION CHECK</p><h2>还有分类尚未选择</h2></div></header>
         <p id="categoryWarningCopy" class="warning-copy"></p>
@@ -241,7 +241,7 @@
       </form>
     </dialog>
 
-    <dialog id="previewMiniDialog" class="compact-dialog preview-mini-dialog">
+    <dialog id="previewMiniDialog" class="compact-dialog preview-mini-dialog" closedby="closerequest">
       <form id="previewMiniForm" method="dialog">
         <header>
           <div><p class="eyebrow">MINI PROGRAM PREVIEW</p><h2>预览小程序</h2></div>
@@ -261,6 +261,6 @@
     </dialog>
 
     <div id="toast" class="toast" role="status"></div>
-    <script src="./app.js?v=20260906-2" defer></script>
+    <script src="./app.js?v=20260929-1" defer></script>
   </body>
 </html>
