@@ -748,7 +748,7 @@ function renderProducts() {
     </div>
     <div class="panel data-panel">
       <table class="data-table">
-        <thead><tr><th style="width:31%">面料</th><th style="width:12%">货号</th><th style="width:16%">分类</th><th style="width:12%">规格</th><th style="width:10%">状态</th><th style="width:12%">更新</th><th>操作</th></tr></thead>
+        <thead><tr><th style="width:25%">面料</th><th style="width:9%">货号</th><th style="width:14%">分类</th><th style="width:10%">规格</th><th style="width:8%">状态</th><th style="width:12%">更新</th><th style="width:22%">操作</th></tr></thead>
         <tbody>
           ${products.map(product => `
             <tr>
@@ -987,7 +987,7 @@ function renderRequests() {
   return `
     <div class="view-toolbar"><div class="filters">${requestFilters.map(item => `<button class="filter-button ${requestFilter === item.value ? "is-active" : ""}" data-request-filter="${item.value}">${item.label} ${item.value === "all" ? state.requests.length : requestCount(item.value)}</button>`).join("")}</div><span class="toolbar-note">打开详情可查看地址、面料明细并处理申请</span></div>
     <div class="panel data-panel">
-      <table class="data-table"><thead><tr><th style="width:15%">申请单</th><th style="width:21%">客户</th><th style="width:22%">申请内容</th><th style="width:10%">地区</th><th style="width:11%">状态</th><th style="width:11%">申请时间</th><th>操作</th></tr></thead>
+      <table class="data-table"><thead><tr><th style="width:15%">申请单</th><th style="width:18%">客户</th><th style="width:20%">申请内容</th><th style="width:8%">地区</th><th style="width:10%">状态</th><th style="width:12%">申请时间</th><th style="width:17%">操作</th></tr></thead>
       <tbody>${visibleRequests.length ? visibleRequests.map(item => `
         <tr><td><span class="code">${item.id}</span></td><td><strong>${escapeHtml(item.customer)}</strong><br><small class="muted">${escapeHtml(item.company)} · ${escapeHtml(item.phone)}</small></td><td>${escapeHtml(item.items)}</td><td>${escapeHtml(item.city)}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td><td><small class="muted">${escapeHtml(item.createdAt)}</small></td><td><div class="request-row-actions"><button class="icon-button" data-request-detail="${escapeHtml(item.id)}">详情</button>${!["已完成", "已取消"].includes(item.status) ? `<button class="button button-secondary button-small" data-next-request="${escapeHtml(item.id)}">推进</button>` : ""}</div></td></tr>`).join("") : `<tr><td colspan="7"><div class="table-empty"><strong>暂无${requestFilter === "all" ? "申请记录" : `“${requestFilter}”申请`}</strong><span>切换其他状态可继续查看。</span></div></td></tr>`}</tbody></table>
     </div>
@@ -1152,7 +1152,7 @@ function renderCustomers() {
   const activeCustomer = customers.find(customer => customer.id === customerDetailId || customer.phone === customerDetailId);
   return `
     <div class="view-toolbar"><span class="toolbar-note">客户由样卡申请自动归集，打开详情可查看地址、申请记录并维护资料。</span><button class="button button-secondary button-small" data-demo="customer">＋ 新增客户</button></div>
-    <div class="panel data-panel"><table class="data-table"><thead><tr><th style="width:25%">客户</th><th style="width:22%">公司</th><th style="width:16%">联系方式</th><th style="width:10%">地区</th><th style="width:12%">申请次数</th><th style="width:10%">最近申请</th><th>操作</th></tr></thead><tbody>
+    <div class="panel data-panel"><table class="data-table"><thead><tr><th style="width:22%">客户</th><th style="width:20%">公司</th><th style="width:16%">联系方式</th><th style="width:8%">地区</th><th style="width:9%">申请次数</th><th style="width:10%">最近申请</th><th style="width:15%">操作</th></tr></thead><tbody>
       ${customers.map(customer => `<tr><td><div class="fabric-cell"><span class="customer-avatar">${escapeHtml(customer.name.slice(0, 1))}</span><strong>${escapeHtml(customer.name)}</strong></div></td><td>${escapeHtml(customer.company || "—")}</td><td>${escapeHtml(customer.phone || "—")}</td><td>${escapeHtml(customer.city || "—")}</td><td>${customer.count} 次</td><td><small class="muted">${escapeHtml(customer.latest || "—")}</small></td><td><button class="icon-button" data-customer-detail="${escapeHtml(customer.id || customer.phone)}">详情</button></td></tr>`).join("")}
     </tbody></table></div>${activeCustomer ? renderCustomerDetail(activeCustomer) : ""}`;
 }
@@ -1530,7 +1530,22 @@ function validateProduct(status) {
   return true;
 }
 
+function setButtonBusy(button, busy) {
+  if (!button) return;
+  button.disabled = busy;
+  if (busy) button.setAttribute("aria-busy", "true");
+  else button.removeAttribute("aria-busy");
+}
+
+async function withButtonBusy(button, action) {
+  if (button?.disabled) return;
+  setButtonBusy(button, true);
+  try { return await action(); }
+  finally { setButtonBusy(button, false); }
+}
+
 async function saveProduct(status, skipCategoryWarning = false) {
+  if ($("#publishProduct").disabled) return;
   if (!validateProduct(status)) return;
   const missingGroups = state.categories.filter(group => !group.tags.some(tag => selectedCategoryIds.includes(tag.id)));
   if (!skipCategoryWarning && missingGroups.length) {
@@ -1543,9 +1558,9 @@ async function saveProduct(status, skipCategoryWarning = false) {
   const publishButton = $("#publishProduct");
   const draftButton = $("#saveDraft");
   const offlineButton = $("#takeOfflineProduct");
-  publishButton.disabled = true;
-  draftButton.disabled = true;
-  offlineButton.disabled = true;
+  [publishButton, draftButton, offlineButton].forEach(button => { button.disabled = true; });
+  const activeSaveButton = status === "live" ? publishButton : status === "offline" ? offlineButton : draftButton;
+  setButtonBusy(activeSaveButton, true);
   let values = formValues();
   try {
     await initCloud();
@@ -1555,6 +1570,7 @@ async function saveProduct(status, skipCategoryWarning = false) {
     publishButton.disabled = false;
     draftButton.disabled = false;
     offlineButton.disabled = false;
+    setButtonBusy(activeSaveButton, false);
     $("#saveState").textContent = "服务器保存失败";
     const message = `未写入服务器：${cloudErrorMessage(error)}`;
     setSaveError(message);
@@ -1586,6 +1602,7 @@ async function saveProduct(status, skipCategoryWarning = false) {
     publishButton.disabled = false;
     draftButton.disabled = false;
     offlineButton.disabled = false;
+    setButtonBusy(activeSaveButton, false);
   }
 }
 
@@ -1692,7 +1709,7 @@ document.addEventListener("click", event => {
     return;
   }
   const saveRequestButton = event.target.closest("[data-save-request-detail]");
-  if (saveRequestButton) return saveRequestDetail(saveRequestButton.dataset.saveRequestDetail);
+  if (saveRequestButton) return withButtonBusy(saveRequestButton, () => saveRequestDetail(saveRequestButton.dataset.saveRequestDetail));
   const next = event.target.closest("[data-next-request]");
   if (next) {
     const request = state.requests.find(item => item.id === next.dataset.nextRequest);
@@ -1814,7 +1831,7 @@ document.addEventListener("click", event => {
     return;
   }
   const saveCustomerButton = event.target.closest("[data-save-customer-detail]");
-  if (saveCustomerButton) return saveCustomerDetail(saveCustomerButton.dataset.saveCustomerDetail);
+  if (saveCustomerButton) return withButtonBusy(saveCustomerButton, () => saveCustomerDetail(saveCustomerButton.dataset.saveCustomerDetail));
   const demoButton = event.target.closest("[data-demo]");
   if (demoButton?.dataset.demo === "customer") return createCustomerFromAdmin();
   if (demoButton) return showToast("该入口已纳入雏形，下一阶段补充完整编辑表单");
@@ -1984,20 +2001,24 @@ document.addEventListener("change", async event => {
 document.addEventListener("submit", async event => {
   if (event.target.id === "caseEditorForm") {
     event.preventDefault();
-    await saveCaseEditor();
+    await withButtonBusy(event.submitter || event.target.querySelector("button[type=submit]"), saveCaseEditor);
     return;
   }
   if (event.target.id !== "homepagePageForm") return;
   event.preventDefault();
   const saveButton = event.submitter;
-  if (saveButton) { saveButton.disabled = true; saveButton.textContent = "正在同步…"; }
+  const saveButtons = [...event.target.querySelectorAll("button[type=submit]")];
+  if (saveButtons.some(button => button.disabled)) return;
+  saveButtons.forEach(button => { button.disabled = true; });
+  setButtonBusy(saveButton || saveButtons[0], true);
   try {
     await writeHomepage();
     renderView();
     showToast("首页配置已同步到小程序");
   } catch (error) {
-    if (saveButton) { saveButton.disabled = false; saveButton.textContent = "保存并同步小程序"; }
     showToast(`首页配置保存失败：${cloudErrorMessage(error)}`);
+  } finally {
+    saveButtons.forEach(button => setButtonBusy(button, false));
   }
 });
 
@@ -2094,6 +2115,9 @@ $("#categoryManageForm").addEventListener("submit", async event => {
   const values = Object.fromEntries(new FormData(form).entries());
   const name = values.name.trim();
   const snapshot = categoryManageContext.snapshot;
+  const saveButton = form.querySelector("button[type=submit]");
+  if (saveButton.disabled) return;
+  setButtonBusy(saveButton, true);
   try {
     if (values.mode === "group") {
       if (state.categories.some(group => group.name === name && group.id !== values.editId)) throw new Error("已经存在同名一级分类");
@@ -2127,6 +2151,8 @@ $("#categoryManageForm").addEventListener("submit", async event => {
   } catch (error) {
     state.categories = snapshot;
     showToast(`分类保存失败：${cloudErrorMessage(error)}`);
+  } finally {
+    setButtonBusy(saveButton, false);
   }
 });
 $("#closeCategoryManage").addEventListener("click", () => $("#categoryManageDialog").close());
@@ -2200,7 +2226,8 @@ $("#loginForm").addEventListener("submit", async event => {
   const errorBox = $("#loginError");
   const values = Object.fromEntries(new FormData(form).entries());
   errorBox.hidden = true;
-  button.disabled = true;
+  if (button.disabled) return;
+  setButtonBusy(button, true);
   button.querySelector("span").textContent = "正在验证…";
   try {
     await apiRequest("/auth/login", { method: "POST", body: JSON.stringify(values) });
@@ -2210,7 +2237,7 @@ $("#loginForm").addEventListener("submit", async event => {
     errorBox.textContent = /401|账号|密码/i.test(error.message) ? "账号或密码不正确，请重新输入。" : "暂时无法连接后台，请稍后重试。";
     errorBox.hidden = false;
   } finally {
-    button.disabled = false;
+    setButtonBusy(button, false);
     button.querySelector("span").textContent = "进入后台";
   }
 });
